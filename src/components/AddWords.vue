@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <h1>This is homepage</h1>
-  </div>
+  <div class="addWords">Add words</div>
 </template>
 
 <script>
