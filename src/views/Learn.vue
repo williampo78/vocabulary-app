@@ -1,6 +1,9 @@
 <template>
   <div class="learn">
-    <h1>Learn</h1>
+    <h1>單字學習</h1>
+    <div>
+      <button>開始學習</button>
+    </div>
   </div>
 </template>
 
@@ -10,8 +13,10 @@ export default {};
 
 <style lang="scss">
 .learn {
+  width: 100%;
+  margin-left: 50px;
   h1 {
-    display: inline-block;
+    text-align: start;
   }
 }
 </style>

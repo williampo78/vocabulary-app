@@ -3,11 +3,11 @@
     <div class="left">
       <img src="@/assets/images/logo.png" alt="" />
       <div id="nav">
-        <router-link to="/">首頁</router-link>
-        <router-link to="/learn">單字學習</router-link>
-        <router-link to="/addWords">建立單字卡</router-link>
-        <router-link to="/about">影音學習</router-link>
-        <router-link to="/about">閱讀學習</router-link>
+        <router-link :to="{ name: 'Home' }">首頁</router-link>
+        <router-link :to="{ name: 'Learn' }">單字學習</router-link>
+        <router-link :to="{ name: 'AddWords' }">建立單字卡</router-link>
+        <router-link to="/">影音學習</router-link>
+        <router-link to="/">閱讀學習</router-link>
       </div>
     </div>
 
@@ -24,24 +24,24 @@ export default {};
 
 <style lang="scss">
 .header {
-  display: grid;
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 20px;
   .left {
+    width: 700px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     img {
-      width: 140px;
-      margin: 0 150px auto 0;
+      width: 120px;
     }
     #nav {
       display: flex;
       justify-content: space-around;
       a {
-        font-size: 20px;
+        font-size: auto;
         font-weight: bold;
         color: #000;
         margin: 0 20px;
@@ -54,14 +54,14 @@ export default {};
     margin-right: 50px;
     a {
       border: 2px solid black;
-      width: 100px;
+      width: 60px;
       height: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
       border-radius: 5px;
       font-weight: bold;
-      font-size: 20px;
+      font-size: 18px;
       color: #000;
       margin: 0 20px;
     }

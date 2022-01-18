@@ -12,29 +12,28 @@ const routes = [
     component: Home,
   },
   {
-    path: "/learn",
-    name: "Learn",
+    path: "",
     component: Layout,
     children: [
       {
-        path: "/index",
-        name: "LearnIndex",
+        path: "/learn",
+        name: "Learn",
         component: () => import("@/views/Learn.vue"),
       },
     ],
   },
   {
     path: "",
-    name: "AddWords",
     component: Layout,
     children: [
       {
-        path: "/addWordsqq",
-        name: "AddWordqqs",
-        component: () => import("@/components/AddWords.vue"),
+        path: "/addWords",
+        name: "AddWords",
+        component: () => import("@/views/AddWords.vue"),
       },
     ],
   },
+  { path: "*", redirect: "/" },
 ];
 
 const router = new VueRouter({
