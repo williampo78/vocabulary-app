@@ -1,14 +1,16 @@
 <template>
   <div id="app">
     <Header />
-    <router-view />
+    <router-view class="view" />
+    <Footer />
   </div>
 </template>
 
 <script>
 import Header from "./components/Header.vue";
+import Footer from "./components/Footer.vue";
 export default {
-  components: { Header },
+  components: { Header, Footer },
 };
 </script>
 <style lang="scss">
@@ -21,12 +23,14 @@ export default {
   font-family: "Noto Sans TC", sans-serif;
 }
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  background: #f1efee;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: #f1efee;
+  .view {
+    margin-bottom: 220px;
+  }
 }
 </style>
