@@ -46,6 +46,9 @@ export default {};
         color: #000;
         margin: 0 20px;
       }
+      .router-link-exact-active {
+        color: #ed9568;
+      }
     }
   }
 

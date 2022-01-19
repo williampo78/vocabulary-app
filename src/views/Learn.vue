@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="cards">
-      <div class="card">
+      <!-- <div class="card">
         <div class="operate">
           <i class="fas fa-edit"></i>
           <i class="fas fa-trash-alt"></i>
@@ -30,95 +30,25 @@
           <p>例句:</p>
           <p>It's a well-known fable.</p>
         </div>
-      </div>
-      <div class="card">
+      </div> -->
+      <div v-for="card in cards" :key="card.id" class="card">
         <div class="operate">
-          <i class="fas fa-edit"></i>
+          <i @click="editCard(card.id)" class="fas fa-edit"></i>
           <i class="fas fa-trash-alt"></i>
           <i class="far fa-heart"></i>
           <i class="fas fa-heart"></i>
         </div>
         <div class="word">
-          <p>fable (n) 預言</p>
+          <p>
+            {{ card.word }} ({{ card.partOfSpeech }}) {{ card.translation }}
+          </p>
         </div>
         <div class="line">
           <span></span>
         </div>
         <div class="example">
           <p>例句:</p>
-          <p>It's a well-known fable.</p>
-        </div>
-      </div>
-      <div class="card">
-        <div class="operate">
-          <i class="fas fa-edit"></i>
-          <i class="fas fa-trash-alt"></i>
-          <i class="far fa-heart"></i>
-          <i class="fas fa-heart"></i>
-        </div>
-        <div class="word">
-          <p>fable (n) 預言</p>
-        </div>
-        <div class="line">
-          <span></span>
-        </div>
-        <div class="example">
-          <p>例句:</p>
-          <p>It's a well-known fable.</p>
-        </div>
-      </div>
-      <div class="card">
-        <div class="operate">
-          <i class="fas fa-edit"></i>
-          <i class="fas fa-trash-alt"></i>
-          <i class="far fa-heart"></i>
-          <i class="fas fa-heart"></i>
-        </div>
-        <div class="word">
-          <p>fable (n) 預言</p>
-        </div>
-        <div class="line">
-          <span></span>
-        </div>
-        <div class="example">
-          <p>例句:</p>
-          <p>It's a well-known fable.</p>
-        </div>
-      </div>
-      <div class="card">
-        <div class="operate">
-          <i class="fas fa-edit"></i>
-          <i class="fas fa-trash-alt"></i>
-          <i class="far fa-heart"></i>
-          <i class="fas fa-heart"></i>
-        </div>
-        <div class="word">
-          <p>fable (n) 預言</p>
-        </div>
-        <div class="line">
-          <span></span>
-        </div>
-        <div class="example">
-          <p>例句:</p>
-          <p>It's a well-known fable.</p>
-        </div>
-      </div>
-      <div class="card">
-        <div class="operate">
-          <i class="fas fa-edit"></i>
-          <i class="fas fa-trash-alt"></i>
-          <i class="far fa-heart"></i>
-          <i class="fas fa-heart"></i>
-        </div>
-        <div class="word">
-          <p>fable (n) 預言</p>
-        </div>
-        <div class="line">
-          <span></span>
-        </div>
-        <div class="example">
-          <p>例句:</p>
-          <p>It's a well-known fable.</p>
+          <p>{{ card.example }}</p>
         </div>
       </div>
     </div>
@@ -126,13 +56,36 @@
 </template>
 
 <script>
-export default {};
+import { db, colRef, getDocs, onSnapshot, query, orderBy } from "../firebase";
+export default {
+  data() {
+    return {
+      cards: [],
+      edit: false,
+    };
+  },
+  created() {
+    const q = query(colRef, orderBy("time", "desc"));
+    onSnapshot(q, (snapshot) => {
+      this.cards = [];
+      snapshot.docs.forEach((doc) => {
+        this.cards.push({ ...doc.data(), id: doc.id });
+      });
+      console.log("cards:", this.cards);
+      console.log("snapshot");
+    });
+  },
+  methods: {
+    editCard(id) {
+      this.$store.commit("OVERLAY", true);
+    },
+  },
+};
 </script>
 
 <style lang="scss">
 .learn {
   width: 100%;
-  padding: 0 50px;
   h1 {
     text-align: start;
   }
@@ -147,6 +100,7 @@ export default {};
         font-size: 22px;
         color: #495dc5;
         font-weight: bold;
+        cursor: default;
       }
       button {
         width: 85px;
@@ -160,19 +114,20 @@ export default {};
       }
     }
     .filter {
-      width: 100px;
       display: flex;
-      justify-content: space-around;
-      .fa-th-large {
-        color: #000;
+      padding-right: 40px;
+      i {
+        cursor: pointer;
+        margin: 0 5px;
       }
     }
   }
   .cards {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+    padding: 5px 30px;
     .card {
-      padding: 10px;
+      padding: 20px;
       background: #fff;
       margin: 10px;
       min-height: 200px;
@@ -184,6 +139,8 @@ export default {};
         justify-content: flex-end;
         i {
           margin: 0 5px;
+          font-size: 20px;
+          cursor: pointer;
         }
         .fa-edit {
           color: #4274ff;

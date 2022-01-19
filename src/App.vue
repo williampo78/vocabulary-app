@@ -1,8 +1,13 @@
 <template>
   <div id="app">
     <Header />
-    <router-view class="view" />
+    <router-view @edit="editCard($event)" class="view" />
     <Footer />
+    <div
+      @click="closeOverlay"
+      v-if="$store.state.overlay == true"
+      class="overlay"
+    ></div>
   </div>
 </template>
 
@@ -10,7 +15,17 @@
 import Header from "./components/Header.vue";
 import Footer from "./components/Footer.vue";
 export default {
+  data() {
+    return {
+      edit: false,
+    };
+  },
   components: { Header, Footer },
+  methods: {
+    closeOverlay() {
+      this.$store.commit("OVERLAY", false);
+    },
+  },
 };
 </script>
 <style lang="scss">
@@ -31,6 +46,13 @@ export default {
   background: #f1efee;
   .view {
     margin-bottom: 220px;
+  }
+  .overlay {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    background: rgba(114, 114, 114, 0.6);
+    z-index: 1;
   }
 }
 </style>
