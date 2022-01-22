@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Header />
-    <router-view @edit="editCard($event)" class="view" />
+    <router-view class="view" />
     <Footer />
     <div
       @click="closeOverlay"
@@ -14,16 +14,49 @@
 <script>
 import Header from "./components/Header.vue";
 import Footer from "./components/Footer.vue";
+import { doc } from "@firebase/firestore";
 export default {
   data() {
-    return {
-      edit: false,
-    };
+    return {};
+  },
+  mounted() {
+    window.addEventListener("scroll", () => {
+      document.documentElement.style.setProperty(
+        "--scroll-y",
+        `${window.scrollY}px`
+      );
+    });
   },
   components: { Header, Footer },
   methods: {
     closeOverlay() {
       this.$store.commit("OVERLAY", false);
+    },
+    editCard(obj) {
+      console.log(obj);
+    },
+  },
+  computed: {
+    getOverlayStatus() {
+      return this.$store.state.overlay;
+    },
+  },
+  watch: {
+    getOverlayStatus() {
+      if (this.$store.state.overlay) {
+        const scrollY =
+          document.documentElement.style.getPropertyValue("--scroll-y");
+        const body = document.body;
+        body.style.position = "fixed";
+        body.style.top = `-${scrollY}`;
+      } else {
+        const body = document.body;
+        const scrollY = body.style.top;
+
+        body.style.position = "";
+        body.style.top = "";
+        window.scrollTo(0, parseInt(scrollY || "0") * -1);
+      }
     },
   },
 };
@@ -50,7 +83,7 @@ export default {
   .overlay {
     position: absolute;
     width: 100%;
-    height: 100vh;
+    height: 100%;
     background: rgba(114, 114, 114, 0.6);
     z-index: 1;
   }

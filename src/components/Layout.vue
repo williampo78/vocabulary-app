@@ -4,10 +4,14 @@
       <div>
         <p>William Chou</p>
       </div>
-      <router-link :to="{ name: 'Home' }">我的主頁</router-link>
+      <!-- <router-link :to="{ name: 'Home' }">我的主頁</router-link>
       <router-link :to="{ name: 'Learn' }">單字學習</router-link>
       <router-link :to="{ name: 'AddWords' }">建立單字卡</router-link>
-      <router-link to="/about">我的收藏</router-link>
+      <router-link to="/about">我的收藏</router-link> -->
+
+      <router-link v-for="link in links" :key="link.routerName">
+        {{ link.title }}
+      </router-link>
     </div>
     <router-view />
     <FormContainer v-if="$store.state.overlay == true" class="modify" />
@@ -18,6 +22,27 @@
 import FormContainer from "./FormContainer.vue";
 export default {
   components: { FormContainer },
+  data() {
+    return {
+      links: [
+        {
+          routerName: "Home",
+          iconSrc: "../images/puzzle_icon.svg",
+          title: "我的主頁",
+        },
+        {
+          routerName: "Learn",
+          iconSrc: "../images/puzzle_icon.svg",
+          title: "單字學習",
+        },
+        {
+          routerName: "AddWords",
+          iconSrc: "../images/puzzle_icon.svg",
+          title: "建立單字卡",
+        },
+      ],
+    };
+  },
 };
 </script>
 
@@ -58,8 +83,8 @@ export default {
   }
   .modify {
     width: 50%;
-    position: absolute;
-    top: 50%;
+    position: fixed;
+    top: 60vh;
     left: 50%;
     transform: translate(-50%, -100%);
     z-index: 5;

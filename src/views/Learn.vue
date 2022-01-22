@@ -131,6 +131,7 @@ export default {
       background: #fff;
       margin: 10px;
       min-height: 200px;
+      box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
       div {
         margin: 5px 0;
       }

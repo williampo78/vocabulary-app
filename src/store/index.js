@@ -8,7 +8,6 @@ export default new Vuex.Store({
   state: {
     overlay: false,
   },
-  getters: {},
   mutations: {
     OVERLAY: (state, payload) => {
       state.overlay = payload;

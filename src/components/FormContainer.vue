@@ -17,8 +17,12 @@
         <label>例句</label>
         <input v-model="input.example" type="text" />
       </div>
-      <div class="buttons">
-        <button @click.prevent="addWord">加入單字</button>
+      <div v-if="!$store.state.overlay" class="buttons">
+        <button ref="submitBtn" @click.prevent="addWord">加入單字</button>
+      </div>
+      <div v-else class="buttons">
+        <button ref="submitBtn" @click.prevent>取消</button>
+        <button ref="submitBtn" @click.prevent="addWord">儲存</button>
       </div>
     </form>
   </div>
@@ -41,6 +45,15 @@ export default {
   methods: {
     addWord() {
       let input = this.input;
+      if (
+        input.word == "" ||
+        input.translation == "" ||
+        input.partOfSpeech == "" ||
+        input.example == ""
+      ) {
+        console.log("empty");
+        return;
+      }
       addDoc(colRef, {
         word: input.word.toLowerCase(),
         partOfSpeech: input.partOfSpeech.toLowerCase(),
@@ -102,6 +115,8 @@ export default {
       width: 100%;
       display: flex;
       align-items: center;
+      justify-content: center;
+      flex-direction: row;
       button {
         width: 110px;
         height: 50px;
@@ -112,6 +127,7 @@ export default {
         border-radius: 10px;
         padding: auto;
         cursor: pointer;
+        margin: 0 20px;
       }
     }
   }
