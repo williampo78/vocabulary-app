@@ -12,6 +12,11 @@ const routes = [
     component: Home,
   },
   {
+    path: "/favorite",
+    name: "Favorite",
+    component: Home,
+  },
+  {
     path: "",
     component: Layout,
     children: [

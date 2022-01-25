@@ -8,8 +8,9 @@ import {
   serverTimestamp,
   query,
   orderBy,
+  deleteDoc,
+  doc,
 } from "firebase/firestore";
-
 const firebaseConfig = {
   apiKey: "AIzaSyBzYX8WE3LNiyQNrsil99X-e72yoKrJLds",
   authDomain: "vocabulary-cards-a3447.firebaseapp.com",
@@ -20,9 +21,10 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore();
 
+const db = getFirestore();
 const colRef = collection(db, "cards");
+
 export {
   colRef,
   db,
@@ -32,4 +34,6 @@ export {
   serverTimestamp,
   query,
   orderBy,
+  deleteDoc,
+  doc,
 };

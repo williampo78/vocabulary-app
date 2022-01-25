@@ -12,32 +12,15 @@
         <i class="fas fa-th-large"></i>
       </div>
     </div>
-    <div class="cards">
-      <!-- <div class="card">
+    <ul class="cards">
+      <li v-for="card in cards" :key="card.id" class="card">
         <div class="operate">
-          <i class="fas fa-edit"></i>
-          <i class="fas fa-trash-alt"></i>
-          <i class="far fa-heart"></i>
-          <i class="fas fa-heart"></i>
+          <i @click="editCard(card)" class="fas fa-edit"></i>
+          <i @click="deleteCard(card.id)" class="fas fa-trash-alt"></i>
+          <i v-show="card.isFav == false" class="far fa-heart"></i>
+          <i v-show="card.isFav == true" class="fas fa-heart"></i>
         </div>
-        <div class="word">
-          <p>fable (n) 預言</p>
-        </div>
-        <div class="line">
-          <span></span>
-        </div>
-        <div class="example">
-          <p>例句:</p>
-          <p>It's a well-known fable.</p>
-        </div>
-      </div> -->
-      <div v-for="card in cards" :key="card.id" class="card">
-        <div class="operate">
-          <i @click="editCard(card.id)" class="fas fa-edit"></i>
-          <i class="fas fa-trash-alt"></i>
-          <i class="far fa-heart"></i>
-          <i class="fas fa-heart"></i>
-        </div>
+
         <div class="word">
           <p>
             {{ card.word }} ({{ card.partOfSpeech }}) {{ card.translation }}
@@ -50,13 +33,14 @@
           <p>例句:</p>
           <p>{{ card.example }}</p>
         </div>
-      </div>
-    </div>
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
 import { db, colRef, getDocs, onSnapshot, query, orderBy } from "../firebase";
+
 export default {
   data() {
     return {
@@ -76,8 +60,15 @@ export default {
     });
   },
   methods: {
-    editCard(id) {
+    editCard(card) {
       this.$store.commit("OVERLAY", true);
+      this.$store.commit("CALL_POPUP", 1);
+      this.$emit("edit", card);
+    },
+    deleteCard(id) {
+      this.$store.commit("OVERLAY", true);
+      this.$store.commit("CALL_POPUP", 2);
+      this.$emit("delete", id);
     },
   },
 };
@@ -127,6 +118,7 @@ export default {
     grid-template-columns: 1fr 1fr 1fr;
     padding: 5px 30px;
     .card {
+      position: relative;
       padding: 20px;
       background: #fff;
       margin: 10px;
@@ -135,6 +127,7 @@ export default {
       div {
         margin: 5px 0;
       }
+
       .operate {
         display: flex;
         justify-content: flex-end;
@@ -153,7 +146,7 @@ export default {
           color: #ee9292;
         }
         .far.fa-heart {
-          display: none;
+          color: #ee9292;
         }
       }
       .word {

@@ -21,8 +21,12 @@
         <button ref="submitBtn" @click.prevent="addWord">加入單字</button>
       </div>
       <div v-else class="buttons">
-        <button ref="submitBtn" @click.prevent>取消</button>
-        <button ref="submitBtn" @click.prevent="addWord">儲存</button>
+        <button class="cancel" ref="submitBtn" @click.prevent="cancel">
+          取消
+        </button>
+        <button class="save" ref="submitBtn" @click.prevent="addWord">
+          儲存
+        </button>
       </div>
     </form>
   </div>
@@ -42,7 +46,12 @@ export default {
       isFav: false,
     };
   },
+  props: ["card"],
   methods: {
+    cancel() {
+      this.$store.commit("OVERLAY", false);
+      this.$store.commit("POPUP", null);
+    },
     addWord() {
       let input = this.input;
       if (
@@ -128,6 +137,9 @@ export default {
         padding: auto;
         cursor: pointer;
         margin: 0 20px;
+      }
+      .cancel {
+        background: #8f8f8f;
       }
     }
   }

@@ -31,6 +31,7 @@ export default {
   methods: {
     closeOverlay() {
       this.$store.commit("OVERLAY", false);
+      this.$store.commit("CALL_POPUP", null);
     },
     editCard(obj) {
       console.log(obj);
@@ -69,6 +70,7 @@ export default {
   padding: 0;
   text-decoration: none;
   font-family: "Noto Sans TC", sans-serif;
+  list-style-type: none;
 }
 #app {
   text-align: center;

@@ -4,44 +4,70 @@
       <div>
         <p>William Chou</p>
       </div>
-      <!-- <router-link :to="{ name: 'Home' }">我的主頁</router-link>
-      <router-link :to="{ name: 'Learn' }">單字學習</router-link>
-      <router-link :to="{ name: 'AddWords' }">建立單字卡</router-link>
-      <router-link to="/about">我的收藏</router-link> -->
-
-      <router-link v-for="link in links" :key="link.routerName">
-        {{ link.title }}
-      </router-link>
+      <ul>
+        <li v-for="link in links" :key="link.routerName">
+          <router-link :to="{ name: link.routerName }">
+            <img :src="link.iconSrc" alt="" /> {{ link.title }}
+          </router-link>
+        </li>
+      </ul>
     </div>
-    <router-view />
-    <FormContainer v-if="$store.state.overlay == true" class="modify" />
+    <router-view @delete="deleteCard($event)" @edit="editCard($event)" />
+    <FormContainer
+      :card="card"
+      v-if="$store.state.overlay == true && $store.state.popUp == 1"
+      class="modify"
+    />
+    <DeleteCheck
+      :deleteId="deleteId"
+      v-if="$store.state.overlay == true && $store.state.popUp == 2"
+    />
   </div>
 </template>
 
 <script>
 import FormContainer from "./FormContainer.vue";
+import DeleteCheck from "./DeleteCheck.vue";
 export default {
-  components: { FormContainer },
+  components: { FormContainer, DeleteCheck },
   data() {
     return {
       links: [
         {
           routerName: "Home",
-          iconSrc: "../images/puzzle_icon.svg",
+          iconSrc: require("@/assets/images/puzzle_icon.svg"),
           title: "我的主頁",
         },
         {
           routerName: "Learn",
-          iconSrc: "../images/puzzle_icon.svg",
+          iconSrc: require("@/assets/images/book_icon.svg"),
+
           title: "單字學習",
         },
         {
           routerName: "AddWords",
-          iconSrc: "../images/puzzle_icon.svg",
+          iconSrc: require("@/assets/images/add_icon.svg"),
+
           title: "建立單字卡",
         },
+        {
+          routerName: "Favorite",
+          iconSrc: require("@/assets/images/like_icon.svg"),
+
+          title: "我的收藏",
+        },
       ],
+      deleteId: "",
+      card: {},
     };
+  },
+  methods: {
+    deleteCard(id) {
+      this.deleteId = id;
+    },
+    editCard(card) {
+      this.card = card;
+    },
   },
 };
 </script>
@@ -67,18 +93,49 @@ export default {
       align-items: center;
       justify-content: center;
     }
-    a {
+    ul {
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       width: 100%;
-      height: 80px;
-      font-size: 22px;
-      font-weight: bold;
-      color: #000;
-    }
-    .router-link-exact-active {
-      background: #fff;
+      list-style-type: none;
+      li {
+        width: 100%;
+        height: 80px;
+        display: flex;
+        justify-content: flex-end;
+        a {
+          padding-left: 20px;
+          display: inline-flex;
+          width: 80%;
+          height: 100%;
+          align-items: center;
+          font-size: 22px;
+          font-weight: bold;
+          color: #000;
+          border-radius: 45px 0px 0 45px;
+          img {
+            width: 25px;
+            margin: 0 10px;
+          }
+        }
+        .router-link-exact-active {
+          position: relative;
+          background: #f1efee;
+          &:after {
+            content: "";
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 0 20px 20px;
+            border-color: transparent transparent #f1efee transparent;
+            position: absolute;
+            right: 0;
+            top: -20px;
+          }
+        }
+      }
     }
   }
   .modify {
