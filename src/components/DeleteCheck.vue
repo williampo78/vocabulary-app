@@ -22,7 +22,8 @@ export default {
     deleteHandler() {
       const docRef = doc(db, "cards", this.deleteId);
       deleteDoc(docRef).then(() => {
-        console.log("deleted");
+        this.$store.commit("OVERLAY", false);
+        this.$store.commit("CALL_POPUP", null);
       });
       console.log(deleteDoc(doc(db, "cards", this.deleteId)));
     },
