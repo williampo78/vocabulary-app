@@ -1,11 +1,19 @@
 <template>
   <ul class="cards">
-    <li v-for="card in cards" :key="card.id" class="card">
+    <li v-for="card in getCards" :key="card.id" class="card">
       <div class="operate">
         <i @click="editCard(card)" class="fas fa-edit"></i>
         <i @click="deleteCard(card.id)" class="fas fa-trash-alt"></i>
-        <i v-show="card.isFav == false" class="far fa-heart"></i>
-        <i v-show="card.isFav == true" class="fas fa-heart"></i>
+        <i
+          @click="updateHandler(card)"
+          v-show="!card.isFav"
+          class="far fa-heart"
+        ></i>
+        <i
+          @click="updateHandler(card)"
+          v-show="card.isFav"
+          class="fas fa-heart"
+        ></i>
       </div>
 
       <div class="word">
@@ -23,7 +31,15 @@
 </template>
 
 <script>
-import { colRef, getDocs, orderBy, query, onSnapshot, docs } from "../firebase";
+import {
+  db,
+  colRef,
+  orderBy,
+  query,
+  onSnapshot,
+  doc,
+  updateDoc,
+} from "../firebase";
 export default {
   data() {
     return {
@@ -52,11 +68,19 @@ export default {
       this.$store.commit("CALL_POPUP", 2);
       this.$parent.$emit("delete", id);
     },
+    updateHandler(card) {
+      const docRef = doc(db, "cards", card.id);
+      updateDoc(docRef, {
+        isFav: !card.isFav,
+      });
+    },
   },
   computed: {
     getCards() {
       if (this.$route.name == "Learn") {
         return this.cards;
+      } else if (this.$route.name == "AddWords") {
+        return this.cards.slice(0, 6);
       }
     },
   },

@@ -1,5 +1,7 @@
 <template>
-  <div class="footer"></div>
+  <div class="footer">
+    <img src="../assets/images/footer logo.png" alt="" />
+  </div>
 </template>
 
 <script>
@@ -13,5 +15,8 @@ export default {};
   background: #fff4e7;
   position: absolute;
   bottom: 0;
+  img {
+    width: 320px;
+  }
 }
 </style>

@@ -12,8 +12,8 @@
     </div>
 
     <div class="login-register">
-      <router-link to="/about">登入</router-link>
-      <router-link to="/about">註冊</router-link>
+      <router-link :to="{ name: 'Login' }">登入</router-link>
+      <router-link :to="{ name: 'Signup' }">註冊</router-link>
     </div>
   </div>
 </template>

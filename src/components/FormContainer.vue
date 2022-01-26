@@ -3,19 +3,19 @@
     <form>
       <div class="word">
         <label>詞語</label>
-        <input v-model="input.word" type="text" />
+        <input v-model="defaultInput.word" type="text" />
       </div>
       <div class="translation">
         <label>定義</label>
-        <input v-model="input.translation" type="text" />
+        <input v-model="defaultInput.translation" type="text" />
       </div>
       <div class="pos">
         <label>詞性</label>
-        <input v-model="input.partOfSpeech" type="text" />
+        <input v-model="defaultInput.partOfSpeech" type="text" />
       </div>
       <div class="example">
         <label>例句</label>
-        <input v-model="input.example" type="text" />
+        <input v-model="defaultInput.example" type="text" />
       </div>
       <div v-if="!$store.state.overlay" class="buttons">
         <button ref="submitBtn" @click.prevent="addWord">加入單字</button>
@@ -81,6 +81,11 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+  },
+  computed: {
+    defaultInput() {
+      return this.card ? this.card : this.input;
     },
   },
 };

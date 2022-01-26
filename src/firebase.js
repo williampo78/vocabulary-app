@@ -10,7 +10,11 @@ import {
   orderBy,
   deleteDoc,
   doc,
+  updateDoc,
 } from "firebase/firestore";
+
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+
 const firebaseConfig = {
   apiKey: "AIzaSyBzYX8WE3LNiyQNrsil99X-e72yoKrJLds",
   authDomain: "vocabulary-cards-a3447.firebaseapp.com",
@@ -25,6 +29,8 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore();
 const colRef = collection(db, "cards");
 
+const auth = getAuth();
+
 export {
   colRef,
   db,
@@ -36,4 +42,7 @@ export {
   orderBy,
   deleteDoc,
   doc,
+  updateDoc,
+  auth,
+  createUserWithEmailAndPassword,
 };

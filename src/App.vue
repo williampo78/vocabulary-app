@@ -81,6 +81,7 @@ export default {
   background: #f1efee;
   .view {
     margin-bottom: 220px;
+    min-height: 450px;
   }
   .overlay {
     position: absolute;
