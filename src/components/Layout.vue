@@ -92,7 +92,7 @@ export default {
   padding-right: 60px;
   .sidebar {
     width: 26vw;
-    min-width: 300px;
+    min-width: 220px;
     height: 700px;
     background: #ed9568;
     display: flex;
@@ -160,6 +160,22 @@ export default {
     left: 50%;
     transform: translate(-50%, -100%);
     z-index: 5;
+  }
+}
+
+@media (max-width: 1400px) {
+  .layout {
+    padding: 0;
+    .sidebar {
+      margin-right: 30px;
+      ul {
+        li {
+          a {
+            width: 100%;
+          }
+        }
+      }
+    }
   }
 }
 </style>

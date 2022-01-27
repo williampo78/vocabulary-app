@@ -170,6 +170,7 @@ export default {
 @media (max-width: 1000px) {
   .cards {
     grid-template-columns: 1fr;
+    padding: 0;
   }
 }
 </style>
