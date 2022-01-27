@@ -5,12 +5,12 @@
         <i @click="editCard(card)" class="fas fa-edit"></i>
         <i @click="deleteCard(card.id)" class="fas fa-trash-alt"></i>
         <i
-          @click="updateHandler(card)"
+          @click="updateFav(card)"
           v-show="!card.isFav"
           class="far fa-heart"
         ></i>
         <i
-          @click="updateHandler(card)"
+          @click="updateFav(card)"
           v-show="card.isFav"
           class="fas fa-heart"
         ></i>
@@ -68,7 +68,7 @@ export default {
       this.$store.commit("CALL_POPUP", 2);
       this.$parent.$emit("delete", id);
     },
-    updateHandler(card) {
+    updateFav(card) {
       const docRef = doc(db, "cards", card.id);
       updateDoc(docRef, {
         isFav: !card.isFav,

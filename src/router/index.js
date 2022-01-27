@@ -4,8 +4,18 @@ import Layout from "../components/Layout.vue";
 import Home from "../views/Home.vue";
 import Signup from "../views/Signup.vue";
 import Login from "../views/Login.vue";
+import { auth } from "../firebase";
 
 Vue.use(VueRouter);
+
+const requireAuth = (to, from, next) => {
+  let user = auth.currentUser;
+  if (!user) {
+    next({ name: "Login" });
+  } else {
+    next();
+  }
+};
 
 const routes = [
   {
@@ -31,6 +41,7 @@ const routes = [
   {
     path: "",
     component: Layout,
+    beforeEnter: requireAuth,
     children: [
       {
         path: "/learn",
@@ -42,6 +53,7 @@ const routes = [
   {
     path: "",
     component: Layout,
+    beforeEnter: requireAuth,
     children: [
       {
         path: "/addWords",

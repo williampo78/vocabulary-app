@@ -2,7 +2,9 @@
   <div class="layout">
     <div class="sidebar">
       <div>
-        <p>William Chou</p>
+        <!-- <p>William Chou</p> -->
+        <p v-if="userInfo">{{ userInfo.displayName }}</p>
+        <p></p>
       </div>
       <ul>
         <li v-for="link in links" :key="link.routerName">
@@ -28,6 +30,9 @@
 <script>
 import FormContainer from "./FormContainer.vue";
 import DeleteCheck from "./DeleteCheck.vue";
+import { onAuthStateChanged } from "@firebase/auth";
+import { auth } from "../firebase";
+
 export default {
   components: { FormContainer, DeleteCheck },
   data() {
@@ -59,7 +64,13 @@ export default {
       ],
       deleteId: "",
       card: {},
+      userInfo: null,
     };
+  },
+  created() {
+    onAuthStateChanged(auth, (user) => {
+      this.userInfo = user;
+    });
   },
   methods: {
     deleteCard(id) {

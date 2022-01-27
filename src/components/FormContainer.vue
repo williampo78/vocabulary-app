@@ -1,21 +1,21 @@
 <template>
   <div class="formContainer">
-    <form>
+    <form @keydown.enter="submitEdit">
       <div class="word">
         <label>詞語</label>
-        <input v-model="defaultInput.word" type="text" />
+        <input v-model="input.word" type="text" />
       </div>
       <div class="translation">
         <label>定義</label>
-        <input v-model="defaultInput.translation" type="text" />
+        <input v-model="input.translation" type="text" />
       </div>
       <div class="pos">
         <label>詞性</label>
-        <input v-model="defaultInput.partOfSpeech" type="text" />
+        <input v-model="input.partOfSpeech" type="text" />
       </div>
       <div class="example">
         <label>例句</label>
-        <input v-model="defaultInput.example" type="text" />
+        <input v-model="input.example" type="text" />
       </div>
       <div v-if="!$store.state.overlay" class="buttons">
         <button ref="submitBtn" @click.prevent="addWord">加入單字</button>
@@ -24,7 +24,7 @@
         <button class="cancel" ref="submitBtn" @click.prevent="cancel">
           取消
         </button>
-        <button class="save" ref="submitBtn" @click.prevent="addWord">
+        <button @click.prevent="submitEdit" class="save" ref="submitBtn">
           儲存
         </button>
       </div>
@@ -33,7 +33,14 @@
 </template>
 
 <script>
-import { colRef, addDoc, serverTimestamp } from "../firebase";
+import {
+  colRef,
+  addDoc,
+  serverTimestamp,
+  updateDoc,
+  doc,
+  db,
+} from "../firebase";
 export default {
   data() {
     return {
@@ -47,10 +54,18 @@ export default {
     };
   },
   props: ["card"],
+  mounted() {
+    if (this.card) {
+      this.input.word = this.card.word;
+      this.input.translation = this.card.translation;
+      this.input.partOfSpeech = this.card.partOfSpeech;
+      this.input.example = this.card.example;
+    }
+  },
   methods: {
     cancel() {
       this.$store.commit("OVERLAY", false);
-      this.$store.commit("POPUP", null);
+      this.$store.commit("CALL_POPUP", null);
     },
     addWord() {
       let input = this.input;
@@ -77,6 +92,24 @@ export default {
           input.partOfSpeech = "";
           input.translation = "";
           input.example = "";
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    submitEdit() {
+      const vm = this;
+      const docRef = doc(db, "cards", this.card.id);
+      updateDoc(docRef, {
+        word: vm.input.word.toLowerCase(),
+        partOfSpeech: vm.input.partOfSpeech.toLowerCase(),
+        translation: vm.input.translation,
+        example:
+          vm.input.example.charAt(0).toUpperCase() + vm.input.example.slice(1),
+      })
+        .then(() => {
+          this.$store.commit("OVERLAY", false);
+          this.$store.commit("CALL_POPUP", null);
         })
         .catch((err) => {
           console.log(err);

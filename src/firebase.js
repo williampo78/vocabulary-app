@@ -13,7 +13,14 @@ import {
   updateDoc,
 } from "firebase/firestore";
 
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+  updateProfile,
+} from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBzYX8WE3LNiyQNrsil99X-e72yoKrJLds",
@@ -45,4 +52,8 @@ export {
   updateDoc,
   auth,
   createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+  onAuthStateChanged,
+  signOut,
 };

@@ -17,7 +17,7 @@
     </div>
 
     <button @click="signUp()" v-if="$route.name == 'Signup'">註冊</button>
-    <button v-else>登入</button>
+    <button @click="logIn()" v-else>登入</button>
     <p v-if="$route.name == 'Signup'">
       已經有帳號了?
       <router-link :to="{ name: 'Login' }">立即登入</router-link>
@@ -30,7 +30,12 @@
 </template>
 
 <script>
-import { auth, createUserWithEmailAndPassword } from "../firebase";
+import {
+  auth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from "../firebase";
 
 export default {
   data() {
@@ -46,7 +51,27 @@ export default {
         .then((userCredential) => {
           const user = userCredential.user;
           console.log(user);
-          this.$router.push({ name: "Home" });
+          this.$router.push({ name: "Learn" });
+          this.email = "";
+          this.password = "";
+          updateProfile(user, { displayName: this.account })
+            .then((res) => {
+              console.log(res);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    logIn() {
+      signInWithEmailAndPassword(auth, this.email, this.password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log(user);
+          this.$router.push({ name: "Learn" });
         })
         .catch((err) => {
           console.log(err);

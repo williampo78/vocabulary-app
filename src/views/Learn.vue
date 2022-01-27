@@ -12,35 +12,12 @@
         <i class="fas fa-th-large"></i>
       </div>
     </div>
-    <!-- <ul class="cards">
-      <li v-for="card in cards" :key="card.id" class="card">
-        <div class="operate">
-          <i @click="editCard(card)" class="fas fa-edit"></i>
-          <i @click="deleteCard(card.id)" class="fas fa-trash-alt"></i>
-          <i v-show="card.isFav == false" class="far fa-heart"></i>
-          <i v-show="card.isFav == true" class="fas fa-heart"></i>
-        </div>
-
-        <div class="word">
-          <p>
-            {{ card.word }} ({{ card.partOfSpeech }}) {{ card.translation }}
-          </p>
-        </div>
-        <div class="line">
-          <span></span>
-        </div>
-        <div class="example">
-          <p>例句:</p>
-          <p>{{ card.example }}</p>
-        </div>
-      </li>
-    </ul> -->
     <Cards />
   </div>
 </template>
 
 <script>
-import { db, colRef, getDocs, onSnapshot, query, orderBy } from "../firebase";
+import getUser from "../composables/getUser";
 import Cards from "../components/Cards.vue";
 
 export default {
@@ -48,20 +25,15 @@ export default {
     return {
       cards: [],
       edit: false,
+      userInfo: null,
     };
   },
+
+  created() {
+    const { userInfo } = getUser();
+    this.userInfo = userInfo;
+  },
   components: { Cards },
-  // created() {
-  //   const q = query(colRef, orderBy("time", "desc"));
-  //   onSnapshot(q, (snapshot) => {
-  //     this.cards = [];
-  //     snapshot.docs.forEach((doc) => {
-  //       this.cards.push({ ...doc.data(), id: doc.id });
-  //     });
-  //     console.log("cards:", this.cards);
-  //     console.log("snapshot");
-  //   });
-  // },
   methods: {
     editCard(card) {
       this.$store.commit("OVERLAY", true);
