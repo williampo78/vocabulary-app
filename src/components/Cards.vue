@@ -1,5 +1,11 @@
 <template>
-  <ul class="cards">
+  <ul
+    :class="[
+      { list: $store.state.cardsDisplay == 1 },
+      { block: $store.state.cardsDisplay == 0 },
+    ]"
+    class="cards"
+  >
     <li v-for="card in getCards" :key="card.id" class="card">
       <div class="operate">
         <i @click="editCard(card)" class="fas fa-edit"></i>
@@ -77,10 +83,14 @@ export default {
   },
   computed: {
     getCards() {
-      if (this.$route.name == "Learn") {
-        return this.cards;
-      } else if (this.$route.name == "AddWords") {
+      if (this.$route.name == "AddWords") {
         return this.cards.slice(0, 6);
+      } else if (this.$route.name == "Learn") {
+        return this.cards;
+      } else if (this.$route.name == "Favorite") {
+        return this.cards.filter((card) => {
+          return card.isFav == true;
+        });
       }
     },
   },
@@ -102,7 +112,6 @@ export default {
     div {
       margin: 5px 0;
     }
-
     .operate {
       display: flex;
       justify-content: flex-end;
@@ -149,10 +158,18 @@ export default {
     }
   }
 }
+.cards.list {
+  grid-template-columns: 1fr;
+}
 
-@media (max-width: 1200px) {
+@media (max-width: 1400px) {
   .cards {
     grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 1000px) {
+  .cards {
+    grid-template-columns: 1fr;
   }
 }
 </style>

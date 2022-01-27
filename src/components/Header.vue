@@ -17,7 +17,7 @@
     </div>
 
     <div v-if="userInfo" class="loggedIn">
-      <p>{{ userInfo.displayName }} 歡迎繼續您的學習</p>
+      <p>{{ userInfo.displayName }}, 繼續您的學習</p>
       <button @click="logOut">登出</button>
     </div>
   </div>
@@ -65,13 +65,13 @@ export default {
     align-items: center;
     justify-content: space-between;
     img {
-      width: 120px;
+      width: 140px;
     }
     #nav {
       display: flex;
       justify-content: space-around;
       a {
-        font-size: auto;
+        font-size: 18px;
         font-weight: bold;
         color: #000;
         margin: 0 20px;

@@ -91,7 +91,8 @@ export default {
   display: flex;
   padding-right: 60px;
   .sidebar {
-    min-width: 350px;
+    width: 26vw;
+    min-width: 300px;
     height: 700px;
     background: #ed9568;
     display: flex;
@@ -103,6 +104,9 @@ export default {
       display: flex;
       align-items: center;
       justify-content: center;
+      p {
+        font-size: 22px;
+      }
     }
     ul {
       display: flex;

@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     overlay: false,
     popUp: null,
+    cardsDisplay: 0, // 0:格狀 1:條狀
   },
   mutations: {
     OVERLAY: (state, payload) => {
@@ -15,6 +16,9 @@ export default new Vuex.Store({
     },
     CALL_POPUP: (state, payload) => {
       state.popUp = payload;
+    },
+    CHANGE_DISPLAY: (state, payload) => {
+      state.cardsDisplay = payload;
     },
   },
   actions: {},

@@ -8,8 +8,8 @@
       </div>
       <div class="filter">
         <i class="fas fa-search"></i>
-        <i class="fas fa-list-ul"></i>
-        <i class="fas fa-th-large"></i>
+        <i @click="list" class="fas fa-list-ul"></i>
+        <i @click="block" class="fas fa-th-large"></i>
       </div>
     </div>
     <Cards />
@@ -23,7 +23,6 @@ import Cards from "../components/Cards.vue";
 export default {
   data() {
     return {
-      cards: [],
       edit: false,
       userInfo: null,
     };
@@ -44,6 +43,12 @@ export default {
       this.$store.commit("OVERLAY", true);
       this.$store.commit("CALL_POPUP", 2);
       this.$emit("delete", id);
+    },
+    list() {
+      this.$store.commit("CHANGE_DISPLAY", 1);
+    },
+    block() {
+      this.$store.commit("CHANGE_DISPLAY", 0);
     },
   },
 };
@@ -84,7 +89,10 @@ export default {
       padding-right: 40px;
       i {
         cursor: pointer;
-        margin: 0 5px;
+        margin: 0 8px;
+        font-size: 22px;
+      }
+      .fa-th-large {
       }
     }
   }

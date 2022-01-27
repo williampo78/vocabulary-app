@@ -17,16 +17,21 @@ const requireAuth = (to, from, next) => {
   }
 };
 
+const requireNoAuth = (to, from, next) => {
+  let user = auth.currentUser;
+  if (user) {
+    next({ name: "Learn" });
+  } else {
+    next();
+  }
+};
+
 const routes = [
   {
     path: "/",
     name: "Home",
     component: Home,
-  },
-  {
-    path: "/favorite",
-    name: "Favorite",
-    component: Home,
+    beforeEnter: requireNoAuth,
   },
   {
     path: "/signup",
@@ -59,6 +64,18 @@ const routes = [
         path: "/addWords",
         name: "AddWords",
         component: () => import("@/views/AddWords.vue"),
+      },
+    ],
+  },
+  {
+    path: "",
+    component: Layout,
+    beforeEnter: requireAuth,
+    children: [
+      {
+        path: "/favorite",
+        name: "Favorite",
+        component: () => import("@/views/Favorite.vue"),
       },
     ],
   },
