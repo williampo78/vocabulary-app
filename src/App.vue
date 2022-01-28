@@ -50,12 +50,15 @@ export default {
         const body = document.body;
         body.style.position = "fixed";
         body.style.top = `-${scrollY}`;
+        body.style.width = "100vw";
       } else {
         const body = document.body;
         const scrollY = body.style.top;
 
         body.style.position = "";
         body.style.top = "";
+        body.style.width = "auto";
+
         window.scrollTo(0, parseInt(scrollY || "0") * -1);
       }
     },
@@ -85,7 +88,7 @@ export default {
   }
   .overlay {
     position: absolute;
-    width: 100%;
+    width: 100vw;
     height: 100%;
     background: rgba(114, 114, 114, 0.6);
     z-index: 1;

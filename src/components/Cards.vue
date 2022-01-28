@@ -45,6 +45,8 @@ import {
   onSnapshot,
   doc,
   updateDoc,
+  where,
+  auth,
 } from "../firebase";
 export default {
   data() {
@@ -53,13 +55,25 @@ export default {
     };
   },
   created() {
-    const q = query(colRef, orderBy("time", "desc"));
+    const q = query(
+      colRef,
+      where("userId", "==", auth.currentUser.uid),
+      orderBy("time", "desc")
+    );
     onSnapshot(q, (snapshot) => {
       this.cards = [];
       snapshot.docs.forEach((doc) => {
         this.cards.push({ ...doc.data(), id: doc.id });
       });
-      console.log("cards:", this.cards);
+
+      let favCards = this.cards.filter((card) => {
+        return card.isFav == true;
+      });
+      if (!this.cards.length) {
+        this.$emit("noCards");
+      } else if (!favCards.length) {
+        this.$emit("noFav");
+      }
       console.log("snapshot");
     });
   },

@@ -8,6 +8,7 @@
         <router-link :to="{ name: 'AddWords' }">建立單字卡</router-link>
         <router-link to="/">影音學習</router-link>
         <router-link to="/">閱讀學習</router-link>
+        <!-- <a href="https://readtheory.org/" target="blank">閱讀學習</a> -->
       </div>
     </div>
 
@@ -17,7 +18,7 @@
     </div>
 
     <div v-if="userInfo" class="loggedIn">
-      <p>{{ userInfo.displayName }}, 繼續您的學習</p>
+      <p>{{ userInfo.displayName }}, 歡迎</p>
       <button @click="logOut">登出</button>
     </div>
   </div>
@@ -60,7 +61,7 @@ export default {
   align-items: center;
   padding: 20px;
   .left {
-    width: 700px;
+    max-width: 700px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -74,7 +75,7 @@ export default {
         font-size: 18px;
         font-weight: bold;
         color: #000;
-        margin: 0 20px;
+        margin: 0 1vw;
       }
       .router-link-exact-active {
         color: #ed9568;
@@ -97,6 +98,14 @@ export default {
       font-size: 18px;
       color: #000;
       margin: 0 20px;
+    }
+  }
+  @media (max-width: 900px) {
+    .login {
+      margin-right: 0;
+      a {
+        margin: 0 10px;
+      }
     }
   }
   .loggedIn {

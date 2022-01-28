@@ -12,7 +12,13 @@
         <i @click="block" class="fas fa-th-large"></i>
       </div>
     </div>
-    <Cards />
+    <Cards @noCards="noCards" />
+    <div class="noCards">
+      <p v-if="!hasCards">還沒有單字, 現在開始建立單字庫吧</p>
+      <button v-if="!hasCards" @click="$router.push({ name: 'AddWords' })">
+        去建立
+      </button>
+    </div>
   </div>
 </template>
 
@@ -25,6 +31,7 @@ export default {
     return {
       edit: false,
       userInfo: null,
+      hasCards: true,
     };
   },
 
@@ -50,6 +57,9 @@ export default {
     block() {
       this.$store.commit("CHANGE_DISPLAY", 0);
     },
+    noCards() {
+      this.hasCards = false;
+    },
   },
 };
 </script>
@@ -59,6 +69,29 @@ export default {
   width: 100%;
   h1 {
     text-align: start;
+  }
+  .noCards {
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    p {
+      font-size: 25px;
+      color: #4274ff;
+      font-weight: bold;
+    }
+    button {
+      margin: 20px 0;
+      width: 120px;
+      height: 45px;
+      font-size: 20px;
+      border-radius: 5px;
+      border: none;
+      border: 1px solid #000;
+      background: #fff4e7;
+      cursor: pointer;
+    }
   }
   .top {
     width: 100%;

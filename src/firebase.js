@@ -11,6 +11,7 @@ import {
   deleteDoc,
   doc,
   updateDoc,
+  where,
 } from "firebase/firestore";
 
 import {
@@ -37,7 +38,6 @@ const db = getFirestore();
 const colRef = collection(db, "cards");
 
 const auth = getAuth();
-
 export {
   colRef,
   db,
@@ -56,4 +56,5 @@ export {
   updateProfile,
   onAuthStateChanged,
   signOut,
+  where,
 };

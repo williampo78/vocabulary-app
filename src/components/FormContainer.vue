@@ -1,6 +1,6 @@
 <template>
-  <div class="formContainer">
-    <form @keydown.enter="submitEdit">
+  <div @submit.prevent class="formContainer">
+    <form>
       <div class="word">
         <label>詞語</label>
         <input v-model="input.word" type="text" />
@@ -21,11 +21,11 @@
         <button ref="submitBtn" @click.prevent="addWord">加入單字</button>
       </div>
       <div v-else class="buttons">
-        <button class="cancel" ref="submitBtn" @click.prevent="cancel">
-          取消
-        </button>
         <button @click.prevent="submitEdit" class="save" ref="submitBtn">
           儲存
+        </button>
+        <button class="cancel" ref="submitBtn" @click.prevent="cancel">
+          取消
         </button>
       </div>
     </form>
@@ -39,6 +39,7 @@ import {
   serverTimestamp,
   updateDoc,
   doc,
+  auth,
   db,
 } from "../firebase";
 export default {
@@ -85,6 +86,7 @@ export default {
         example: input.example.charAt(0).toUpperCase() + input.example.slice(1),
         isFav: this.isFav,
         time: serverTimestamp(),
+        userId: auth.currentUser.uid,
       })
         .then((res) => {
           console.log(res);
