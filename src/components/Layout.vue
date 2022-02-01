@@ -50,7 +50,7 @@ export default {
   }
 
   .modify {
-    width: 50%;
+    width: auto;
     position: fixed;
     top: 60vh;
     left: 50%;

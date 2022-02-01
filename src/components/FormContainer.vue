@@ -163,9 +163,9 @@ export default {
     .buttons {
       width: 100%;
       display: flex;
+      flex-direction: row;
       align-items: center;
       justify-content: center;
-      flex-direction: row;
       button {
         width: 110px;
         height: 50px;
@@ -201,11 +201,7 @@ export default {
         width: 100%;
       }
       .buttons {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: row;
+        justify-content: space-between;
         button {
           width: 110px;
           height: 50px;
@@ -216,7 +212,7 @@ export default {
           border-radius: 10px;
           padding: auto;
           cursor: pointer;
-          margin: 0 20px;
+          margin: 0 auto;
         }
         .cancel {
           background: #8f8f8f;
