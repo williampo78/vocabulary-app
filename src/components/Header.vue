@@ -10,12 +10,7 @@
       class="fas fa-bars"
     ></i>
     <div class="left">
-      <img
-        class="logo"
-        @click="$route.name == 'Home' ? null : $router.push({ name: 'Home' })"
-        src="@/assets/images/logo.png"
-        alt=""
-      />
+      <img class="logo" src="@/assets/images/logo.png" alt="" />
       <div id="nav">
         <router-link :to="{ name: 'Home' }">首頁</router-link>
         <router-link :to="{ name: 'Learn' }">單字學習</router-link>
