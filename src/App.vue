@@ -32,6 +32,7 @@ export default {
     closeOverlay() {
       this.$store.commit("OVERLAY", false);
       this.$store.commit("CALL_POPUP", null);
+      this.$store.commit("TOGGLE_SIDEBAR", false);
     },
     editCard(obj) {
       console.log(obj);

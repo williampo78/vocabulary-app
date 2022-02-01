@@ -184,4 +184,45 @@ export default {
     }
   }
 }
+@media (max-width: 900px) {
+  .formContainer {
+    form {
+      width: 95%;
+      height: 360px;
+      padding: 10px;
+      div {
+        width: 100%;
+        input {
+          width: 100%;
+          height: 30px;
+        }
+      }
+      .example {
+        width: 100%;
+      }
+      .buttons {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+        button {
+          width: 110px;
+          height: 50px;
+          border: none;
+          background: #000;
+          color: #fff;
+          font-size: 20px;
+          border-radius: 10px;
+          padding: auto;
+          cursor: pointer;
+          margin: 0 20px;
+        }
+        .cancel {
+          background: #8f8f8f;
+        }
+      }
+    }
+  }
+}
 </style>
