@@ -50,7 +50,7 @@ export default {
   }
 
   .modify {
-    width: auto;
+    width: 50%;
     position: fixed;
     top: 60vh;
     left: 50%;
@@ -62,6 +62,13 @@ export default {
 @media (max-width: 1400px) {
   .layout {
     padding: 0;
+  }
+}
+@media (max-width: 900px) {
+  .layout {
+    .modify {
+      width: 100%;
+    }
   }
 }
 </style>

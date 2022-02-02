@@ -145,7 +145,7 @@ export default {
     transform: translateX(-250px);
     position: absolute;
     z-index: 5;
-    top: -160px;
+    top: -103px;
     height: 100vh;
     ul {
       li {

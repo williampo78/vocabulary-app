@@ -77,12 +77,9 @@ export default {
   .fa-bars {
     font-size: 32px;
     z-index: 10;
+    display: none;
   }
-  @media (min-width: 900px) {
-    .fa-bars {
-      display: none;
-    }
-  }
+
   .left {
     display: flex;
     align-items: center;
@@ -104,11 +101,6 @@ export default {
         color: #ed9568;
       }
     }
-    @media (max-width: 900px) {
-      #nav {
-        display: none;
-      }
-    }
   }
 
   .login {
@@ -128,14 +120,7 @@ export default {
       margin: 0 20px;
     }
   }
-  @media (max-width: 900px) {
-    .login {
-      margin-right: 0;
-      a {
-        margin: 0 10px;
-      }
-    }
-  }
+
   .loggedIn {
     display: flex;
     align-items: center;
@@ -155,6 +140,41 @@ export default {
       color: #000;
       margin: 0 20px;
       cursor: pointer;
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .header {
+    padding: 0 12px;
+    .fa-bars {
+      display: block;
+    }
+    .left {
+      .logo {
+        width: 115px;
+      }
+      #nav {
+        display: none;
+      }
+    }
+
+    .login {
+      margin-right: 0;
+      a {
+        margin: 0 10px;
+      }
+    }
+    .loggedIn {
+      p {
+        max-width: 145px;
+        font-size: 18px;
+      }
+      button {
+        width: 45px;
+        height: 28px;
+        margin: 0 10px;
+      }
     }
   }
 }
