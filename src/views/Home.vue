@@ -97,26 +97,15 @@ export default {};
 }
 @media (max-width: 900px) {
   .home {
-    margin-top: 5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     .main {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
       width: 95%;
       height: 480px;
-      background: url("../assets/images/main.svg") no-repeat #fff;
       background-size: 80%;
-      background-position: center bottom 10%;
       h1 {
         font-size: 30px;
       }
       .banner {
         font-size: 24px;
-        margin: 25px 0;
-        font-weight: bold;
       }
       .buttons {
         button {
@@ -124,29 +113,13 @@ export default {};
           width: 100px;
           height: 36px;
           font-size: 16px;
-          font-weight: bold;
-          background: none;
-          border: none;
-          border-radius: 3px;
-          cursor: pointer;
-        }
-        .try {
-          background: #fce895;
-        }
-        .more {
-          border: #bce0fd 2px solid;
         }
       }
       .description {
         margin-top: 25px;
-        display: flex;
-        align-items: flex-start;
-        justify-content: center;
         div {
           width: 42%;
-          text-align: start;
           margin: 0 20px;
-          background: linear-gradient(transparent, #fff);
           h3 {
             display: inline-flex;
             text-align: center;
