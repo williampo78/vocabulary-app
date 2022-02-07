@@ -71,7 +71,7 @@ export default {
       });
       if (!this.cards.length) {
         this.$emit("noCards");
-      } else if (!favCards.length) {
+      } else if (!this.cards.length || !favCards.length) {
         this.$emit("noFav");
       }
       console.log("snapshot");
