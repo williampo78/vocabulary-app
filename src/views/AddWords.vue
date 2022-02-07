@@ -18,9 +18,10 @@ export default {
 };
 </script>
 
-<style lang="scss" >
+<style lang="scss">
 .addWords {
   width: 100%;
+
   h1 {
     text-align: start;
   }
@@ -29,6 +30,12 @@ export default {
     text-align: start;
     margin-top: 50px;
     color: #495dc5;
+  }
+}
+@media (max-width: 900px) {
+  .addWords {
+    width: 100vw;
+    margin: 0 20px;
   }
 }
 </style>

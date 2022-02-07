@@ -31,7 +31,7 @@ export default {
 };
 </script>
 
-<style lang="scss" >
+<style lang="scss">
 .dlt-check {
   width: 30vw;
   height: 18vw;
@@ -78,6 +78,13 @@ export default {
     .dlt-cancel {
       background: #5b58a5;
     }
+  }
+}
+@media (max-width: 900px) {
+  .dlt-check {
+    width: auto;
+    height: auto;
+    padding: 30px;
   }
 }
 </style>

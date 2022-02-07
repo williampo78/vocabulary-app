@@ -13,8 +13,8 @@
       </div>
     </div>
     <Cards @noCards="noCards" />
-    <div class="noCards">
-      <p v-if="!hasCards">還沒有單字, 現在開始建立單字庫吧</p>
+    <div v-if="!hasCards" class="noCards">
+      <p>還沒有單字, 現在開始建立單字庫吧</p>
       <button v-if="!hasCards" @click="$router.push({ name: 'AddWords' })">
         去建立
       </button>
@@ -125,9 +125,19 @@ export default {
         margin: 0 8px;
         font-size: 22px;
       }
-      .fa-th-large {
+      @media (max-width: 1000px) {
+        .fa-list-ul,
+        .fa-th-large {
+          display: none;
+        }
       }
     }
+  }
+}
+@media (max-width: 900px) {
+  .learn {
+    width: 100vw;
+    margin: 0 20px;
   }
 }
 </style>

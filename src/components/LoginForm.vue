@@ -130,4 +130,42 @@ export default {
     }
   }
 }
+@media (max-width: 900px) {
+  .loginForm {
+    width: 100%;
+    padding: 10px;
+    div {
+      margin: 10px 0;
+      display: flex;
+      width: 80%;
+      label {
+        i {
+        }
+      }
+      input {
+        background: none;
+        height: 40px;
+        width: 90%;
+      }
+    }
+    button {
+      margin: 20px 0 10px 0;
+      width: 80%;
+      height: 38px;
+      background: #495dc5;
+      border: none;
+      outline: none;
+      border-radius: 5px;
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    p {
+      a {
+        text-decoration: underline;
+        color: #495dc5;
+      }
+    }
+  }
+}
 </style>

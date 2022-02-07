@@ -13,6 +13,7 @@ export default {
 
 <style lang="scss">
 .signupPage {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;

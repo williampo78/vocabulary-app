@@ -1,14 +1,22 @@
 <template>
   <div class="header">
+    <i
+      v-if="
+        $route.name !== 'Home' &&
+        $route.name !== 'Login' &&
+        $route.name !== 'Signup'
+      "
+      @click="openSidebar"
+      class="fas fa-bars"
+    ></i>
     <div class="left">
-      <img src="@/assets/images/logo.png" alt="" />
+      <img class="logo" src="@/assets/images/logo.png" alt="" />
       <div id="nav">
         <router-link :to="{ name: 'Home' }">首頁</router-link>
         <router-link :to="{ name: 'Learn' }">單字學習</router-link>
         <router-link :to="{ name: 'AddWords' }">建立單字卡</router-link>
         <router-link to="/">影音學習</router-link>
         <router-link to="/">閱讀學習</router-link>
-        <!-- <a href="https://readtheory.org/" target="blank">閱讀學習</a> -->
       </div>
     </div>
 
@@ -49,6 +57,12 @@ export default {
           console.log(err);
         });
     },
+    openSidebar() {
+      let sidebar = this.$store.state.sidebar;
+      let overlay = this.$store.state.overlay;
+      this.$store.commit("TOGGLE_SIDEBAR", sidebar == false ? true : false);
+      this.$store.commit("OVERLAY", overlay == false ? true : false);
+    },
   },
 };
 </script>
@@ -60,13 +74,19 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 20px;
+  .fa-bars {
+    font-size: 32px;
+    z-index: 10;
+    display: none;
+  }
+
   .left {
-    max-width: 700px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    img {
+    .logo {
       width: 140px;
+      cursor: pointer;
     }
     #nav {
       display: flex;
@@ -100,14 +120,7 @@ export default {
       margin: 0 20px;
     }
   }
-  @media (max-width: 900px) {
-    .login {
-      margin-right: 0;
-      a {
-        margin: 0 10px;
-      }
-    }
-  }
+
   .loggedIn {
     display: flex;
     align-items: center;
@@ -127,6 +140,41 @@ export default {
       color: #000;
       margin: 0 20px;
       cursor: pointer;
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .header {
+    padding: 0 12px;
+    .fa-bars {
+      display: block;
+    }
+    .left {
+      .logo {
+        width: 115px;
+      }
+      #nav {
+        display: none;
+      }
+    }
+
+    .login {
+      margin-right: 0;
+      a {
+        margin: 0 10px;
+      }
+    }
+    .loggedIn {
+      p {
+        max-width: 145px;
+        font-size: 18px;
+      }
+      button {
+        width: 45px;
+        height: 28px;
+        margin: 0 10px;
+      }
     }
   }
 }

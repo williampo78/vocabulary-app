@@ -42,4 +42,10 @@ export default {
     font-weight: bold;
   }
 }
+@media (max-width: 900px) {
+  .favorite {
+    width: 100vw;
+    margin: 0 20px;
+  }
+}
 </style>
