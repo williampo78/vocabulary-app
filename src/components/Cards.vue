@@ -96,6 +96,7 @@ export default {
     },
   },
   computed: {
+    //在建立單字卡頁面紙顯示最近6個添加的單字
     getCards() {
       if (this.$route.name == "AddWords") {
         return this.cards.slice(0, 6);
