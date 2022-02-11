@@ -79,6 +79,18 @@ const routes = [
       },
     ],
   },
+  {
+    path: "",
+    component: Layout,
+    beforeEnter: requireAuth,
+    children: [
+      {
+        path: "/quiz",
+        name: "Quiz",
+        component: () => import("@/views/Quiz.vue"),
+      },
+    ],
+  },
   { path: "*", redirect: "/" },
 ];
 
