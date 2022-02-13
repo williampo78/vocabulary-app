@@ -22,7 +22,7 @@ export default {
     return {
       links: [
         {
-          routerName: "Home",
+          routerName: "MyPage",
           iconSrc: require("@/assets/images/puzzle_icon.svg"),
           title: "我的主頁",
         },

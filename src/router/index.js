@@ -49,6 +49,18 @@ const routes = [
     beforeEnter: requireAuth,
     children: [
       {
+        path: "/myPage",
+        name: "MyPage",
+        component: () => import("@/views/MyPage.vue"),
+      },
+    ],
+  },
+  {
+    path: "",
+    component: Layout,
+    beforeEnter: requireAuth,
+    children: [
+      {
         path: "/learn",
         name: "Learn",
         component: () => import("@/views/Learn.vue"),
