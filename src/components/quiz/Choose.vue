@@ -1,15 +1,11 @@
 <template>
-<div class="quizChoose">
-    
-</div>
+  <div class="quizChoose">
+      <h1>On Develop</h1>
+  </div>
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
-<style>
-
-</style>
+<style></style>
