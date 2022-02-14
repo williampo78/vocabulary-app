@@ -1,6 +1,5 @@
 <template>
   <div v-if="connectedToDB" class="quizChoose">
-    <!-- <p>{{ currentCard.word }} ({{ currentCard.partOfSpeech }})</p> -->
     <div class="quizContainer">
       <div class="question">
         <p>{{ questions[index].word }} ({{ questions[index].partOfSpeech }})</p>
@@ -9,8 +8,9 @@
         <button>狗</button>
         <button>貓</button>
         <button>老鼠</button>
-        <button>豬</button>
+        <button>{{ questions[index].translation }}</button>
       </div>
+      {{ createOptions }}
     </div>
 
     <i @click="changeIndex(1)" class="fas fa-chevron-right"></i>
@@ -27,6 +27,7 @@ export default {
       connectedToDB: false,
       index: 0,
       questions: [],
+      options: [],
     };
   },
   created() {
@@ -41,6 +42,8 @@ export default {
       snapshot.docs.forEach((doc) => {
         this.cards.push({ ...doc.data(), id: doc.id });
       });
+
+      //隨機選出n個單字作為題目
       let arr = this.cards,
         n = 5,
         result = new Array(n),
@@ -56,15 +59,37 @@ export default {
       this.questions = result;
     });
   },
-  computed: {
-    currentCard() {
-      return this.getRandom[this.index];
-    },
-  },
+
   methods: {
     changeIndex(change) {
       let length = 5;
       this.index = (this.index + change + length) % length;
+    },
+  },
+  computed: {
+    createOptions() {
+      const arr = this.cards.filter((card) => !this.questions.includes(card));
+
+      // let filtered = this.cards.filter((card) => {
+      //   return this.questions.some((q) => {
+      //     return q === card;
+      //   });
+      // });
+      // console.log(filtered);
+
+      const shuffled = arr.sort(() => 0.5 - Math.random());
+      let selected = shuffled.slice(0, 5);
+      console.log("selected", selected);
+
+      this.questions.forEach((q) => {
+        this.options.push([q.translation]);
+      });
+      for (let i = 0; i < this.options.length; i++) {
+        this.options[i].push("hi");
+      }
+      console.log(this.options);
+
+      console.log(arr);
     },
   },
 };
