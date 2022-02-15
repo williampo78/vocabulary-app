@@ -2,15 +2,32 @@
   <div v-if="connectedToDB" class="quizChoose">
     <div class="quizContainer">
       <div class="question">
-        <p>{{ questions[index].word }} ({{ questions[index].partOfSpeech }})</p>
+        <p>
+          {{ questions[questionIndex].word }} ({{
+            questions[questionIndex].partOfSpeech
+          }})
+        </p>
       </div>
+      <!-- <div
+        v-for="(option, index) in createOptions[questionIndex]"
+        :key="index"
+        class="options"
+      >
+        <button @click="answer(index)">
+          {{ option[0].translation }}
+        </button>
+        <button>{{ option[1].translation }}</button>
+        <button>{{ option[2].translation }}</button>
+        <button>{{ option[3].translation }}</button>
+      </div> -->
       <div class="options">
-        <button>狗</button>
-        <button>貓</button>
-        <button>老鼠</button>
-        <button>{{ questions[index].translation }}</button>
+        <button @click="answer(questionIndex)">
+          {{ createOptions[questionIndex][0].translation }}
+        </button>
+        <button>{{ createOptions[questionIndex][1].translation }}</button>
+        <button>{{ createOptions[questionIndex][2].translation }}</button>
+        <button>{{ createOptions[questionIndex][3].translation }}</button>
       </div>
-      {{ createOptions }}
     </div>
 
     <i @click="changeIndex(1)" class="fas fa-chevron-right"></i>
@@ -25,12 +42,14 @@ export default {
     return {
       cards: [],
       connectedToDB: false,
-      index: 0,
+      questionIndex: 0,
       questions: [],
       options: [],
+      numberOfQuestions: 10,
     };
   },
   created() {
+    let n = this.numberOfQuestions;
     const q = query(
       colRef,
       where("userId", "==", auth.currentUser.uid),
@@ -45,7 +64,6 @@ export default {
 
       //隨機選出n個單字作為題目
       let arr = this.cards,
-        n = 5,
         result = new Array(n),
         len = arr.length,
         taken = new Array(len);
@@ -62,34 +80,34 @@ export default {
 
   methods: {
     changeIndex(change) {
-      let length = 5;
-      this.index = (this.index + change + length) % length;
+      let length = this.numberOfQuestions;
+      //總共幾題
+      this.questionIndex = (this.questionIndex + change + length) % length;
+    },
+    answer(index) {
+      console.log(index);
     },
   },
   computed: {
     createOptions() {
-      const arr = this.cards.filter((card) => !this.questions.includes(card));
-
-      // let filtered = this.cards.filter((card) => {
-      //   return this.questions.some((q) => {
-      //     return q === card;
-      //   });
-      // });
-      // console.log(filtered);
-
-      const shuffled = arr.sort(() => 0.5 - Math.random());
-      let selected = shuffled.slice(0, 5);
-      console.log("selected", selected);
-
+      const options = [];
       this.questions.forEach((q) => {
-        this.options.push([q.translation]);
-      });
-      for (let i = 0; i < this.options.length; i++) {
-        this.options[i].push("hi");
-      }
-      console.log(this.options);
+        // 把該題目的單字排除
+        const filtered = this.cards.filter((card) => {
+          return card !== q;
+        });
 
-      console.log(arr);
+        // 剩下的全部打亂選出三個當選項
+        const shuffled = filtered.sort(() => 0.5 - Math.random());
+        let selected = shuffled.slice(0, 3);
+        // 把題目的單字push進去
+        selected.push(q);
+        // 再重新打亂
+        selected.sort(() => 0.5 - Math.random());
+        options.push(selected);
+      });
+      console.log(options);
+      return options;
     },
   },
 };
