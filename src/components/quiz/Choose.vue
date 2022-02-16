@@ -8,29 +8,19 @@
           }})
         </p>
       </div>
-      <!-- <div
-        v-for="(option, index) in createOptions[questionIndex]"
-        :key="index"
-        class="options"
-      >
-        <button @click="answer(index)">
-          {{ option[0].translation }}
-        </button>
-        <button>{{ option[1].translation }}</button>
-        <button>{{ option[2].translation }}</button>
-        <button>{{ option[3].translation }}</button>
-      </div> -->
       <div class="options">
-        <button @click="answer(questionIndex)">
-          {{ createOptions[questionIndex][0].translation }}
+        <button
+          @click="submitAnswer(option, index)"
+          v-for="(option, index) in createOptions[questionIndex]"
+          :key="index"
+          ref="answer"
+        >
+          {{ option.translation }}
         </button>
-        <button>{{ createOptions[questionIndex][1].translation }}</button>
-        <button>{{ createOptions[questionIndex][2].translation }}</button>
-        <button>{{ createOptions[questionIndex][3].translation }}</button>
       </div>
     </div>
 
-    <i @click="changeIndex(1)" class="fas fa-chevron-right"></i>
+    <!-- <i @click="changeIndex(1)" class="fas fa-chevron-right"></i> -->
   </div>
 </template>
 
@@ -84,8 +74,22 @@ export default {
       //總共幾題
       this.questionIndex = (this.questionIndex + change + length) % length;
     },
-    answer(index) {
-      console.log(index);
+    submitAnswer(option, index) {
+      if (option == this.questions[this.questionIndex]) {
+        this.$refs.answer[index].classList.add("correct");
+      } else {
+        this.$refs.answer[index].classList.add("false");
+      }
+
+      //切換到下一題
+      setTimeout(() => {
+        let length = this.numberOfQuestions;
+        this.questionIndex = (this.questionIndex + 1 + length) % length;
+        this.$refs.answer.forEach((n) => {
+          n.classList.remove("correct");
+          n.classList.remove("false");
+        });
+      }, 500);
     },
   },
   computed: {
@@ -150,6 +154,12 @@ export default {
         border: 1px solid #b7b7b7;
         background: none;
         border-radius: 5px;
+      }
+      .correct {
+        background: rgb(40, 184, 40);
+      }
+      .false {
+        background: rgb(240, 54, 54);
       }
     }
   }
