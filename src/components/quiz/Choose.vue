@@ -1,6 +1,6 @@
 <template>
   <div v-if="connectedToDB" class="quizChoose">
-    <div class="quizContainer">
+    <div v-if="!showResult" class="quizContainer">
       <div class="question">
         <p>
           {{ questions[questionIndex].word }} ({{
@@ -13,11 +13,24 @@
           @click="submitAnswer(option, index)"
           v-for="(option, index) in createOptions[questionIndex]"
           :key="index"
-          ref="answer"
+          :class="[
+            { correct: option == questions[questionIndex] && answered },
+            {
+              incorrect:
+                optionIndex == index &&
+                option !== questions[questionIndex] &&
+                answered,
+            },
+          ]"
         >
           {{ option.translation }}
         </button>
       </div>
+    </div>
+    <div class="result" v-if="showResult">
+      <h1>你的分數:</h1>
+      <h2>{{ numberOfCorrects }}/{{ numberOfQuestions }}</h2>
+      <button @click="testAgain">再測驗一次</button>
     </div>
 
     <!-- <i @click="changeIndex(1)" class="fas fa-chevron-right"></i> -->
@@ -32,10 +45,14 @@ export default {
     return {
       cards: [],
       connectedToDB: false,
-      questionIndex: 0,
-      questions: [],
-      options: [],
-      numberOfQuestions: 10,
+      questionIndex: 0, //第幾題
+      questions: [], //全部問題
+      options: [], //全部選項
+      numberOfQuestions: 10, //設定總共幾題
+      answered: false, //選取答案
+      optionIndex: null, //該題選的選項
+      showResult: false,
+      numberOfCorrects: 0,
     };
   },
   created() {
@@ -69,26 +86,30 @@ export default {
   },
 
   methods: {
-    changeIndex(change) {
-      let length = this.numberOfQuestions;
-      //總共幾題
-      this.questionIndex = (this.questionIndex + change + length) % length;
+    testAgain() {
+      this.showResult = false;
+      this.questionIndex = 0;
     },
     submitAnswer(option, index) {
-      if (option == this.questions[this.questionIndex]) {
-        this.$refs.answer[index].classList.add("correct");
-      } else {
-        this.$refs.answer[index].classList.add("false");
+      this.answered = true; //提交答案
+      this.optionIndex = index; //得到選取選項的Index
+      let correctAnswer = this.questions[this.questionIndex];
+
+      if (option === correctAnswer) {
+        this.numberOfCorrects++;
       }
 
       //切換到下一題
       setTimeout(() => {
         let length = this.numberOfQuestions;
-        this.questionIndex = (this.questionIndex + 1 + length) % length;
-        this.$refs.answer.forEach((n) => {
-          n.classList.remove("correct");
-          n.classList.remove("false");
-        });
+        if (this.questionIndex == length - 1) {
+          this.answered = false;
+          this.showResult = true;
+          return;
+        } else {
+          this.answered = false;
+          this.questionIndex = (this.questionIndex + 1 + length) % length;
+        }
       }, 500);
     },
   },
@@ -110,7 +131,7 @@ export default {
         selected.sort(() => 0.5 - Math.random());
         options.push(selected);
       });
-      console.log(options);
+      // console.log(options);
       return options;
     },
   },
@@ -151,15 +172,107 @@ export default {
         height: 55px;
         font-size: 18px;
         cursor: pointer;
-        border: 1px solid #b7b7b7;
+        border: 2px solid #b3afaf;
         background: none;
         border-radius: 5px;
       }
       .correct {
         background: rgb(40, 184, 40);
+        border-color: rgb(40, 184, 40);
       }
-      .false {
+      .incorrect {
         background: rgb(240, 54, 54);
+        border-color: rgb(240, 54, 54);
+      }
+    }
+  }
+  .result {
+    width: 450px;
+    height: 350px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    h1 {
+      text-align: center;
+      color: #4274ff;
+      font-size: 36px;
+    }
+    h2 {
+      font-size: 30px;
+    }
+    button {
+      margin: 20px 0;
+      width: 120px;
+      height: 45px;
+      font-size: 20px;
+      border-radius: 5px;
+      border: none;
+      border: 1px solid #000;
+      background: #fff4e7;
+      cursor: pointer;
+    }
+  }
+}
+@media (max-width: 900px) {
+  .quizChoose {
+    width: 100%;
+    margin-top: 50px;
+    .quizContainer {
+      width: 100%;
+      height: auto;
+      background: #fff;
+      box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      .question {
+        height: 120px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        p {
+          font-size: 35px;
+        }
+      }
+      .options {
+        margin: 10px 0;
+
+        justify-content: space-around;
+        button {
+          width: 95%;
+          margin: 5px 0;
+          height: 60px;
+        }
+        .correct {
+          background: rgb(40, 184, 40);
+        }
+        .incorrect {
+          background: rgb(240, 54, 54);
+        }
+      }
+    }
+    .result {
+      width: 100%;
+      height: 280px;
+      h1 {
+        text-align: center;
+        color: #4274ff;
+        font-size: 36px;
+        margin: 10px 0;
+      }
+      h2 {
+        font-size: 30px;
+      }
+      button {
+        margin: 20px 0;
+        width: auto;
+        height: auto;
+        padding: 6px 8px;
+        font-size: 20px;
       }
     }
   }
