@@ -49,6 +49,18 @@ const routes = [
     beforeEnter: requireAuth,
     children: [
       {
+        path: "/myPage",
+        name: "MyPage",
+        component: () => import("@/views/MyPage.vue"),
+      },
+    ],
+  },
+  {
+    path: "",
+    component: Layout,
+    beforeEnter: requireAuth,
+    children: [
+      {
         path: "/learn",
         name: "Learn",
         component: () => import("@/views/Learn.vue"),
@@ -76,6 +88,18 @@ const routes = [
         path: "/favorite",
         name: "Favorite",
         component: () => import("@/views/Favorite.vue"),
+      },
+    ],
+  },
+  {
+    path: "",
+    component: Layout,
+    beforeEnter: requireAuth,
+    children: [
+      {
+        path: "/quiz",
+        name: "Quiz",
+        component: () => import("@/views/Quiz.vue"),
       },
     ],
   },

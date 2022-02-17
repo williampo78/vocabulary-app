@@ -75,6 +75,8 @@ export default {
   text-decoration: none;
   font-family: "Noto Sans TC", sans-serif;
   list-style-type: none;
+  -webkit-tap-highlight-color: transparent;
+  //手機點選時不會反白
 }
 #app {
   text-align: center;

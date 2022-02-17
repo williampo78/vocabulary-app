@@ -1,10 +1,14 @@
 <template>
   <div class="learn">
     <h1>單字學習</h1>
-    <div class="top">
+    <FlipCard v-if="flipCard" />
+    <button class="finish" @click="flipCard = false" v-if="flipCard">
+      結束學習
+    </button>
+    <div v-if="!flipCard" class="top">
       <div class="switching">
         <span>所有單字</span>
-        <button>開始學習</button>
+        <button @click="flipCard = true">開始學習</button>
       </div>
       <div class="filter">
         <i class="fas fa-search"></i>
@@ -12,7 +16,7 @@
         <i @click="block" class="fas fa-th-large"></i>
       </div>
     </div>
-    <Cards @noCards="noCards" />
+    <Cards v-if="!flipCard" @noCards="noCards" />
     <div v-if="!hasCards" class="noCards">
       <p>還沒有單字, 現在開始建立單字庫吧</p>
       <button v-if="!hasCards" @click="$router.push({ name: 'AddWords' })">
@@ -25,6 +29,7 @@
 <script>
 import getUser from "../composables/getUser";
 import Cards from "../components/Cards.vue";
+import FlipCard from "../components/FlipCard.vue";
 
 export default {
   data() {
@@ -32,6 +37,7 @@ export default {
       edit: false,
       userInfo: null,
       hasCards: true,
+      flipCard: false,
     };
   },
 
@@ -39,7 +45,7 @@ export default {
     const { userInfo } = getUser();
     this.userInfo = userInfo;
   },
-  components: { Cards },
+  components: { Cards, FlipCard },
   methods: {
     editCard(card) {
       this.$store.commit("OVERLAY", true);
@@ -67,6 +73,17 @@ export default {
 <style lang="scss">
 .learn {
   width: 100%;
+  .finish {
+    width: 85px;
+    height: 35px;
+    border-radius: 5px;
+    outline: none;
+    background: #fff4e7;
+    border: 2px solid #8f8f8f;
+    margin: 0 20px;
+    cursor: pointer;
+    margin-top: 30px;
+  }
   h1 {
     text-align: start;
   }

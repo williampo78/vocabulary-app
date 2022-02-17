@@ -22,7 +22,7 @@ export default {
     return {
       links: [
         {
-          routerName: "Home",
+          routerName: "MyPage",
           iconSrc: require("@/assets/images/puzzle_icon.svg"),
           title: "我的主頁",
         },
@@ -43,6 +43,12 @@ export default {
           iconSrc: require("@/assets/images/like_icon.svg"),
 
           title: "我的收藏",
+        },
+        {
+          routerName: "Quiz",
+          iconSrc: require("@/assets/images/quiz.svg"),
+
+          title: "單字測驗",
         },
       ],
 
@@ -65,8 +71,9 @@ export default {
 
 <style lang="scss">
 .sidebar {
-  width: 26vw;
+  // width: 26vw;
   min-width: 220px;
+  // width:220px;
   height: 700px;
   background: #ed9568;
   display: flex;
@@ -107,6 +114,7 @@ export default {
         border-radius: 45px 0px 0 45px;
         img {
           width: 25px;
+          height:25px;
           margin: 0 10px;
         }
       }
