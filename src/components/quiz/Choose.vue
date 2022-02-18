@@ -33,7 +33,10 @@
     <div class="result" v-if="showResult">
       <h1>你的分數:</h1>
       <h2>{{ numberOfCorrects }}/{{ numberOfQuestions }}</h2>
-      <button @click="testAgain">再測驗一次</button>
+      <div class="buttons">
+        <button @click="testAgain">再測驗一次</button>
+        <button @click="$router.push({ name: 'Favorite' })">繼續學習</button>
+      </div>
     </div>
 
     <!-- <i @click="changeIndex(1)" class="fas fa-chevron-right"></i> -->
@@ -256,17 +259,23 @@ export default {
     }
     h2 {
       font-size: 30px;
+      margin: 10px 0 50px 0;
     }
-    button {
-      margin: 20px 0;
-      width: 120px;
-      height: 45px;
-      font-size: 20px;
-      border-radius: 5px;
-      border: none;
-      border: 1px solid #000;
-      background: #fff4e7;
-      cursor: pointer;
+    .buttons {
+      display: flex;
+
+      button {
+        margin: 20px 0;
+        width: 120px;
+        height: 45px;
+        font-size: 20px;
+        border-radius: 5px;
+        border: none;
+        border: 1px solid #000;
+        background: #fff4e7;
+        cursor: pointer;
+        margin: 0 10px;
+      }
     }
   }
 }
