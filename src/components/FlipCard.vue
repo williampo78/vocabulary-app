@@ -1,6 +1,6 @@
 <template>
   <div class="flipCard">
-    <div v-if="connectedToDB">
+    <div>
       <i @click="changeIndex(-1)" class="fas fa-chevron-left"></i>
       <ul @click="showAns">
         <li>
@@ -21,23 +21,25 @@ export default {
   data() {
     return {
       cards: [],
-      connectedToDB: false,
       answer: false,
       index: 0,
     };
   },
   created() {
-    const q = query(
-      colRef,
-      where("userId", "==", auth.currentUser.uid),
-      orderBy("time", "desc")
-    );
-    onSnapshot(q, (snapshot) => {
-      this.connectedToDB = true;
-      this.cards = [];
-      snapshot.docs.forEach((doc) => {
-        this.cards.push({ ...doc.data(), id: doc.id });
-      });
+    // const q = query(
+    //   colRef,
+    //   where("userId", "==", auth.currentUser.uid),
+    //   orderBy("time", "desc")
+    // );
+    // onSnapshot(q, (snapshot) => {
+    //   this.connectedToDB = true;
+    //   this.cards = [];
+    //   snapshot.docs.forEach((doc) => {
+    //     this.cards.push({ ...doc.data(), id: doc.id });
+    //   });
+    // });
+    this.$store.state.cards.forEach((card) => {
+      this.cards.push(card);
     });
   },
   methods: {

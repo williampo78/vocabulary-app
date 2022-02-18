@@ -1,12 +1,13 @@
 <template>
   <div v-if="connectedToDB" class="quizChoose">
-    <div v-if="!showResult" class="quizContainer">
+    <div v-if="cards.length < 10" class="noCards">
+      <p>Oh no 單字太少了,請先建立10個單字卡再進行測驗吧</p>
+      <button @click="$router.push({ name: 'AddWords' })">去建立</button>
+    </div>
+
+    <div v-if="!showResult && cards.length >= 10" class="quizContainer">
       <div class="question">
-        <p>
-          {{ questions[questionIndex].word }} ({{
-            questions[questionIndex].partOfSpeech
-          }})
-        </p>
+        <p>{{ questions[questionIndex].word }}</p>
       </div>
       <div class="options">
         <button
@@ -23,10 +24,12 @@
             },
           ]"
         >
-          {{ option.translation }}
+          ({{ option.partOfSpeech }}) {{ option.translation }}
         </button>
       </div>
     </div>
+
+    <!-- 結果 -->
     <div class="result" v-if="showResult">
       <h1>你的分數:</h1>
       <h2>{{ numberOfCorrects }}/{{ numberOfQuestions }}</h2>
@@ -38,23 +41,35 @@
 </template>
 
 <script>
-import { colRef, orderBy, query, where, auth, onSnapshot } from "@/firebase";
+import {
+  db,
+  doc,
+  colRef,
+  updateDoc,
+  orderBy,
+  query,
+  where,
+  auth,
+  onSnapshot,
+} from "@/firebase";
 
 export default {
   data() {
     return {
-      cards: [],
       connectedToDB: false,
+      cards: [],
       questionIndex: 0, //第幾題
       questions: [], //全部問題
       options: [], //全部選項
       numberOfQuestions: 10, //設定總共幾題
       answered: false, //選取答案
       optionIndex: null, //該題選的選項
-      showResult: false,
+      showResult: false, //是否顯示測驗結果
       numberOfCorrects: 0,
+      incorrectWords: [],
     };
   },
+
   created() {
     let n = this.numberOfQuestions;
     const q = query(
@@ -69,34 +84,35 @@ export default {
         this.cards.push({ ...doc.data(), id: doc.id });
       });
 
-      //隨機選出n個單字作為題目
-      let arr = this.cards,
-        result = new Array(n),
-        len = arr.length,
-        taken = new Array(len);
-      if (n > len)
-        throw new RangeError("getRandom: more elements taken than available");
-      while (n--) {
-        var x = Math.floor(Math.random() * len);
-        result[n] = arr[x in taken ? taken[x] : x];
-        taken[x] = --len in taken ? taken[len] : len;
-      }
+      // 隨機選取n個單字當題目
+      let result = this.cards
+        .sort(() => {
+          return 0.5 - Math.random();
+        }) // Shuffle array
+        .slice(0, n); // Get first n items
+      console.log("sort cards", this.cards);
       this.questions = result;
     });
   },
 
   methods: {
+    //再測試一遍
     testAgain() {
       this.showResult = false;
       this.questionIndex = 0;
+      this.numberOfCorrects = 0;
     },
     submitAnswer(option, index) {
       this.answered = true; //提交答案
       this.optionIndex = index; //得到選取選項的Index
       let correctAnswer = this.questions[this.questionIndex];
+      console.log(option.id);
 
+      //檢查是否答對
       if (option === correctAnswer) {
         this.numberOfCorrects++;
+      } else {
+        this.incorrectWords.push(correctAnswer);
       }
 
       //切換到下一題
@@ -105,6 +121,14 @@ export default {
         if (this.questionIndex == length - 1) {
           this.answered = false;
           this.showResult = true;
+
+          //檢查題目是否答完並把答錯題目加到我的收藏
+          this.incorrectWords.forEach((word) => {
+            const docRef = doc(db, "cards", word.id);
+            updateDoc(docRef, {
+              isFav: true,
+            });
+          });
           return;
         } else {
           this.answered = false;
@@ -141,12 +165,40 @@ export default {
 <style lang="scss">
 .quizChoose {
   width: 100%;
+  height: 50%;
   display: flex;
   justify-content: center;
   margin-top: 30px;
+  .noCards {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    p {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 25px;
+      color: #4274ff;
+      font-weight: bold;
+    }
+    button {
+      margin: 20px 0;
+      width: 120px;
+      height: 45px;
+      font-size: 20px;
+      border-radius: 5px;
+      border: none;
+      border: 1px solid #000;
+      background: #fff4e7;
+      cursor: pointer;
+    }
+  }
   .quizContainer {
     width: 70%;
-    height: 350px;
+    height: 25vw;
+    min-height: 350px;
     background: #fff;
     box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
     display: flex;
@@ -158,7 +210,8 @@ export default {
       justify-content: center;
       align-items: center;
       p {
-        font-size: 28px;
+        font-size: 32px;
+        color: #4274ff;
       }
     }
     .options {

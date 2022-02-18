@@ -14,10 +14,27 @@
 <script>
 import Header from "./components/Header.vue";
 import Footer from "./components/Footer.vue";
-import { doc } from "@firebase/firestore";
+import { colRef, orderBy, query, onSnapshot, where, auth } from "./firebase";
 export default {
   data() {
     return {};
+  },
+  created() {
+    if (auth.currentUser) {
+      const q = query(
+        colRef,
+        where("userId", "==", auth.currentUser.uid),
+        orderBy("time", "desc")
+      );
+      onSnapshot(q, (snapshot) => {
+        let cards = [];
+        snapshot.docs.forEach((doc) => {
+          cards.push({ ...doc.data(), id: doc.id });
+        });
+        this.$store.commit("GET_WORDS", cards);
+        console.log("On snapshot");
+      });
+    }
   },
   mounted() {
     window.addEventListener("scroll", () => {
@@ -42,6 +59,9 @@ export default {
     getOverlayStatus() {
       return this.$store.state.overlay;
     },
+    allCards() {
+      return this.$store.state.cards;
+    },
   },
   watch: {
     getOverlayStatus() {
@@ -63,6 +83,7 @@ export default {
         window.scrollTo(0, parseInt(scrollY || "0") * -1);
       }
     },
+    allCards() {},
   },
 };
 </script>
@@ -72,11 +93,11 @@ export default {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  outline: none;
   text-decoration: none;
   font-family: "Noto Sans TC", sans-serif;
   list-style-type: none;
-  -webkit-tap-highlight-color: transparent;
-  //手機點選時不會反白
+  -webkit-tap-highlight-color: transparent; //手機點選時不會反白
 }
 #app {
   text-align: center;

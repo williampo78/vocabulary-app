@@ -8,6 +8,7 @@
 
 <script>
 import Choose from "../components/quiz/Choose.vue";
+
 export default {
   data() {
     return {};

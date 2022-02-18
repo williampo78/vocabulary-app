@@ -10,6 +10,7 @@ export default new Vuex.Store({
     popUp: null,
     cardsDisplay: 0, // 0:格狀 1:條狀
     sidebar: false,
+    cards: [],
   },
   mutations: {
     OVERLAY: (state, payload) => {
@@ -23,6 +24,9 @@ export default new Vuex.Store({
     },
     TOGGLE_SIDEBAR: (state, payload) => {
       state.sidebar = payload;
+    },
+    GET_WORDS: (state, payload) => {
+      state.cards = payload;
     },
   },
   actions: {},

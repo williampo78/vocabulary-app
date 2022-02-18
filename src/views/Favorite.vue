@@ -5,7 +5,7 @@
     <p class="noCards" v-if="!hasFavCards">
       還沒有收藏的單字, 快來收集喜歡或不熟悉的單字吧
     </p>
-    <Cards @noFav="noFav" />
+    <Cards @getFav="getFav" @noFav="noFav" />
   </div>
 </template>
 
@@ -21,6 +21,9 @@ export default {
   methods: {
     noFav() {
       this.hasFavCards = false;
+    },
+    getFav() {
+      this.hasFavCards = true;
     },
   },
 };

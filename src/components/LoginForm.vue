@@ -35,6 +35,11 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
+  colRef,
+  orderBy,
+  query,
+  onSnapshot,
+  where,
 } from "../firebase";
 
 export default {
@@ -71,7 +76,22 @@ export default {
         .then((userCredential) => {
           const user = userCredential.user;
           console.log(user);
-          this.$router.push({ name: "Learn" });
+
+          const q = query(
+            colRef,
+            where("userId", "==", auth.currentUser.uid),
+            orderBy("time", "desc")
+          );
+          onSnapshot(q, (snapshot) => {
+            let cards = [];
+            snapshot.docs.forEach((doc) => {
+              cards.push({ ...doc.data(), id: doc.id });
+            });
+            this.$store.commit("GET_WORDS", cards);
+            this.$router.push({ name: "Learn" });
+
+            console.log("On snapshot");
+          });
         })
         .catch((err) => {
           console.log(err);

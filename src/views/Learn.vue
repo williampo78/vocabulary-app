@@ -8,7 +8,7 @@
     <div v-if="!flipCard" class="top">
       <div class="switching">
         <span>所有單字</span>
-        <button @click="flipCard = true">開始學習</button>
+        <button v-if="hasCards" @click="flipCard = true">開始學習</button>
       </div>
       <div class="filter">
         <i class="fas fa-search"></i>
@@ -16,7 +16,7 @@
         <i @click="block" class="fas fa-th-large"></i>
       </div>
     </div>
-    <Cards v-if="!flipCard" @noCards="noCards" />
+    <Cards v-if="!flipCard" @noCards="noCards" @getCards="getCards" />
     <div v-if="!hasCards" class="noCards">
       <p>還沒有單字, 現在開始建立單字庫吧</p>
       <button v-if="!hasCards" @click="$router.push({ name: 'AddWords' })">
@@ -65,6 +65,9 @@ export default {
     },
     noCards() {
       this.hasCards = false;
+    },
+    getCards() {
+      this.hasCards = true;
     },
   },
 };

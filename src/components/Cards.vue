@@ -55,28 +55,41 @@ export default {
     };
   },
   created() {
-    const q = query(
-      colRef,
-      where("userId", "==", auth.currentUser.uid),
-      orderBy("time", "desc")
-    );
-    onSnapshot(q, (snapshot) => {
-      this.cards = [];
-      snapshot.docs.forEach((doc) => {
-        this.cards.push({ ...doc.data(), id: doc.id });
-      });
+    this.cards = this.$store.state.cards;
 
-      let favCards = this.cards.filter((card) => {
-        return card.isFav == true;
-      });
-      if (!this.cards.length) {
-        this.$emit("noCards");
-      } else if (!this.cards.length || !favCards.length) {
-        this.$emit("noFav");
-      }
-      console.log("snapshot");
+    let favCards = this.cards.filter((card) => {
+      return card.isFav == true;
     });
+    if (!this.cards.length) {
+      this.$emit("noCards");
+    }
+    if (!this.cards.length || !favCards.length) {
+      this.$emit("noFav");
+    }
   },
+  // created() {
+  //   const q = query(
+  //     colRef,
+  //     where("userId", "==", auth.currentUser.uid),
+  //     orderBy("time", "desc")
+  //   );
+  //   onSnapshot(q, (snapshot) => {
+  //     this.cards = [];
+  //     snapshot.docs.forEach((doc) => {
+  //       this.cards.push({ ...doc.data(), id: doc.id });
+  //     });
+
+  //     let favCards = this.cards.filter((card) => {
+  //       return card.isFav == true;
+  //     });
+  //     if (!this.cards.length) {
+  //       this.$emit("noCards");
+  //     } else if (!this.cards.length || !favCards.length) {
+  //       this.$emit("noFav");
+  //     }
+  //     console.log("snapshot");
+  //   });
+  // },
   methods: {
     editCard(card) {
       this.$store.commit("OVERLAY", true);
@@ -106,6 +119,30 @@ export default {
         return this.cards.filter((card) => {
           return card.isFav == true;
         });
+      }
+    },
+    allCards() {
+      return this.$store.state.cards;
+    },
+  },
+  watch: {
+    allCards(val) {
+      console.log("val update", val);
+      this.cards = val;
+
+      let favCards = this.cards.filter((card) => {
+        return card.isFav == true;
+      });
+      if (!this.cards.length) {
+        this.$emit("noCards");
+      } else {
+        this.$emit("getCards");
+      }
+
+      if (!this.cards.length || !favCards.length) {
+        this.$emit("noFav");
+      } else {
+        this.$emit("getFav");
       }
     },
   },
