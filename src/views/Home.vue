@@ -2,26 +2,26 @@
   <div class="home">
     <div class="main">
       <h1>Better late than never</h1>
-      <p class="banner">現在開始還不晚! 馬上加入MUA吧</p>
+      <p class="banner">現在開始還不晚! 馬上加入MAU吧</p>
       <div class="buttons">
         <button @click="$router.push({ name: 'Signup' })" class="try">
           馬上試試
         </button>
-        <button class="more">了解更多</button>
+        <button @click="$router.push({ name: 'Signup' })" class="more">
+          了解更多
+        </button>
       </div>
       <div class="description">
         <div>
           <h3>建立屬於自己的單字本</h3>
           <p>
             背了好多單字卻沒有地方可以自己分類、蒐集嗎?
-            現在就在MUA建立單字卡，滿足個人需求並高效率學習吧 !
+            現在就在MAU建立單字卡，開始學習吧 !
           </p>
         </div>
         <div>
-          <h3>背單字好無聊那就看點影片吧</h3>
-          <p>
-            影片學習效率更佳，在MUA裡我們幫你做好了影片分類，不管是從影片難度或是情境下手，都能找到你現在最想看的影片!
-          </p>
+          <h3>單字背不起來 做點小測驗吧</h3>
+          <p>透過測驗找出還不熟悉的單字，多次練習強化記憶，增加學習效率!</p>
         </div>
       </div>
     </div>

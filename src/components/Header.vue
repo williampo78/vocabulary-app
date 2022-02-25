@@ -10,13 +10,16 @@
       class="fas fa-bars"
     ></i>
     <div class="left">
-      <img class="logo" src="@/assets/images/logo.png" alt="" />
+      <img class="logo" @click="toHome" src="@/assets/images/logo.png" alt="" />
       <div id="nav">
-        <router-link :to="{ name: 'Home' }">首頁</router-link>
+        <router-link v-if="!userInfo" :to="{ name: 'Home' }">首頁</router-link>
+        <router-link v-if="userInfo" :to="{ name: 'MyPage' }"
+          >我的主頁</router-link
+        >
         <router-link :to="{ name: 'Learn' }">單字學習</router-link>
         <router-link :to="{ name: 'AddWords' }">建立單字卡</router-link>
-        <router-link to="/">影音學習</router-link>
-        <router-link to="/">閱讀學習</router-link>
+        <router-link :to="{ name: 'Favorite' }">我的收藏</router-link>
+        <router-link :to="{ name: 'Quiz' }">單字測驗</router-link>
       </div>
     </div>
 
@@ -62,6 +65,11 @@ export default {
       let overlay = this.$store.state.overlay;
       this.$store.commit("TOGGLE_SIDEBAR", sidebar == false ? true : false);
       this.$store.commit("OVERLAY", overlay == false ? true : false);
+    },
+    toHome() {
+      if (this.$route.name == "Login" || this.$route.name == "Signup") {
+        this.$router.push("/");
+      }
     },
   },
 };
