@@ -25,6 +25,12 @@
     <p v-else>
       還沒有帳號嗎?
       <router-link :to="{ name: 'Signup' }">點此註冊</router-link>
+      <br />
+      <span style="color: #555; font-size: 13px"
+        >測試帳號: test@gmail.com
+      </span>
+      <br />
+      <span style="color: #555; font-size: 13px">密碼: 123456</span>
     </p>
   </form>
 </template>

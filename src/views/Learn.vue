@@ -11,9 +11,9 @@
         <button v-if="hasCards" @click="flipCard = true">開始學習</button>
       </div>
       <div class="filter">
-        <i class="fas fa-search"></i>
-        <i @click="list" class="fas fa-list-ul"></i>
-        <i @click="block" class="fas fa-th-large"></i>
+        <!-- <i class="fas fa-search"></i> -->
+        <!-- <i @click="list" class="fas fa-list-ul"></i>
+        <i @click="block" class="fas fa-th-large"></i> -->
       </div>
     </div>
     <Cards v-if="!flipCard" @noCards="noCards" @getCards="getCards" />
