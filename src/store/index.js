@@ -8,7 +8,6 @@ export default new Vuex.Store({
   state: {
     overlay: false,
     popUp: null,
-    cardsDisplay: 0, // 0:格狀 1:條狀
     sidebar: false,
     cards: [],
   },
@@ -18,9 +17,6 @@ export default new Vuex.Store({
     },
     CALL_POPUP: (state, payload) => {
       state.popUp = payload;
-    },
-    CHANGE_DISPLAY: (state, payload) => {
-      state.cardsDisplay = payload;
     },
     TOGGLE_SIDEBAR: (state, payload) => {
       state.sidebar = payload;

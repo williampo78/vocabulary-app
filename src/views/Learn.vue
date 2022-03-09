@@ -10,11 +10,6 @@
         <span>所有單字</span>
         <button v-if="hasCards" @click="flipCard = true">開始學習</button>
       </div>
-      <div class="filter">
-        <!-- <i class="fas fa-search"></i> -->
-        <!-- <i @click="list" class="fas fa-list-ul"></i>
-        <i @click="block" class="fas fa-th-large"></i> -->
-      </div>
     </div>
     <Cards v-if="!flipCard" @noCards="noCards" @getCards="getCards" />
     <div v-if="!hasCards" class="noCards">
@@ -56,12 +51,6 @@ export default {
       this.$store.commit("OVERLAY", true);
       this.$store.commit("CALL_POPUP", 2);
       this.$emit("delete", id);
-    },
-    list() {
-      this.$store.commit("CHANGE_DISPLAY", 1);
-    },
-    block() {
-      this.$store.commit("CHANGE_DISPLAY", 0);
     },
     noCards() {
       this.hasCards = false;
@@ -135,21 +124,6 @@ export default {
         border: 2px solid #8f8f8f;
         margin: 0 20px;
         cursor: pointer;
-      }
-    }
-    .filter {
-      display: flex;
-      padding-right: 40px;
-      i {
-        cursor: pointer;
-        margin: 0 8px;
-        font-size: 22px;
-      }
-      @media (max-width: 1000px) {
-        .fa-list-ul,
-        .fa-th-large {
-          display: none;
-        }
       }
     }
   }
