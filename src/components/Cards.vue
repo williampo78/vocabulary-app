@@ -1,7 +1,13 @@
 <template>
   <div class="cardsContainer">
     <div class="filter">
-      <i class="fas fa-search"></i>
+      <i @click="searchWord" class="fas fa-search"></i>
+      <input
+        v-model="keyWord"
+        ref="searchField"
+        :class="{ showInput: search }"
+        type="text"
+      />
       <i @click="list" class="fas fa-list-ul"></i>
       <i @click="block" class="fas fa-th-large"></i>
     </div>
@@ -55,7 +61,9 @@ export default {
   data() {
     return {
       cards: [],
-      displayBlock: true,
+      displayBlock: true, //改變卡片排列方式
+      search: false,
+      keyWord: "",
     };
   },
   created() {
@@ -111,28 +119,39 @@ export default {
         isFav: !card.isFav,
       });
     },
+    searchWord() {
+      this.search = !this.search;
+      this.$refs.searchField.focus();
+      this.keyWord = "";
+    },
     list() {
-      this.displayBlock = false;
+      this.displayBlock = false; //卡片條列式
     },
     block() {
-      this.displayBlock = true;
+      this.displayBlock = true; //卡片塊狀排列
     },
   },
   computed: {
     //在建立單字卡頁面紙顯示最近6個添加的單字
     getCards() {
       if (this.$route.name == "AddWords") {
-        return this.cards.slice(0, 6);
+        return this.searchCard.slice(0, 6);
       } else if (this.$route.name == "Learn") {
-        return this.cards;
+        return this.searchCard;
       } else if (this.$route.name == "Favorite") {
-        return this.cards.filter((card) => {
+        return this.searchCard.filter((card) => {
           return card.isFav == true;
         });
       }
     },
     allCards() {
       return this.$store.state.cards;
+    },
+    //根據輸入關鍵字顯示單字
+    searchCard() {
+      return this.cards.filter((card) => {
+        return card.word.toLowerCase().match(this.keyWord.toLowerCase());
+      });
     },
   },
   watch: {
@@ -170,6 +189,19 @@ export default {
       cursor: pointer;
       margin: 0 8px;
       font-size: 22px;
+    }
+
+    input {
+      width: 0px;
+      border: none;
+      outline: none;
+      transition: width 0.3s ease;
+    }
+    .showInput {
+      width: 150px;
+      background: #fff4e7;
+      border-radius: 5px;
+      padding-left: 5px;
     }
     @media (max-width: 1000px) {
       .fa-list-ul,

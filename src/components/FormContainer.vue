@@ -17,6 +17,7 @@
         <label>例句</label>
         <input v-model="input.example" type="text" />
       </div>
+      <p v-if="alreadyExist">已存在此單字</p>
       <div v-if="!$store.state.overlay" class="buttons">
         <button ref="submitBtn" @click.prevent="addWord">加入單字</button>
       </div>
@@ -121,6 +122,13 @@ export default {
   computed: {
     defaultInput() {
       return this.card ? this.card : this.input;
+    },
+    alreadyExist() {
+      return this.$store.state.cards
+        .map((card) => {
+          return card.word;
+        })
+        .includes(this.input.word);
     },
   },
 };
