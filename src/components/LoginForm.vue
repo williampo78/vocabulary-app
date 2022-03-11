@@ -4,7 +4,7 @@
     <h1 v-else>登入</h1>
     <div v-if="$route.name == 'Signup'">
       <label for=""><i class="fas fa-user"></i></label>
-      <input v-model="account" placeholder="姓名" type="text" />
+      <input v-model="account" placeholder="名稱" type="text" />
     </div>
     <div>
       <label for=""><i class="fas fa-envelope"></i></label>
@@ -15,7 +15,7 @@
       <label for=""><i class="fas fa-lock"></i></label>
       <input v-model="password" placeholder="密碼" type="password" />
     </div>
-
+    <p class="errorMsg" v-if="loginError">帳號或密碼錯誤</p>
     <button @click="signUp()" v-if="$route.name == 'Signup'">註冊</button>
     <button @click="logIn()" v-else>登入</button>
     <p v-if="$route.name == 'Signup'">
@@ -54,6 +54,7 @@ export default {
       account: "",
       email: "",
       password: "",
+      loginError: false,
     };
   },
   methods: {
@@ -75,9 +76,11 @@ export default {
         })
         .catch((err) => {
           console.log(err);
+          console.log("註冊錯誤");
         });
     },
     logIn() {
+      this.loginError = false;
       signInWithEmailAndPassword(auth, this.email, this.password)
         .then((userCredential) => {
           const user = userCredential.user;
@@ -101,6 +104,7 @@ export default {
         })
         .catch((err) => {
           console.log(err);
+          this.loginError = true;
         });
     },
   },
@@ -154,6 +158,9 @@ export default {
       text-decoration: underline;
       color: #495dc5;
     }
+  }
+  .errorMsg {
+    color: rgb(218, 23, 23);
   }
 }
 @media (max-width: 900px) {
