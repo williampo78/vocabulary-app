@@ -111,7 +111,7 @@ export default {
       align-items: center;
       span {
         font-size: 22px;
-        color: #495dc5;
+        color: $secondary;
         font-weight: bold;
         cursor: default;
       }

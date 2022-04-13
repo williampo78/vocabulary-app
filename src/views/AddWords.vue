@@ -29,7 +29,7 @@ export default {
     font-size: 27px;
     text-align: start;
     margin-top: 50px;
-    color: #495dc5;
+    color: $secondary;
   }
 }
 @media (max-width: 900px) {

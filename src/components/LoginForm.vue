@@ -145,7 +145,7 @@ export default {
     margin: 20px 0 10px 0;
     width: 80%;
     height: 38px;
-    background: #495dc5;
+    background: $secondary;
     border: none;
     outline: none;
     border-radius: 5px;
@@ -156,7 +156,7 @@ export default {
   p {
     a {
       text-decoration: underline;
-      color: #495dc5;
+      color: $secondary;
     }
   }
   .errorMsg {
@@ -185,7 +185,7 @@ export default {
       margin: 20px 0 10px 0;
       width: 80%;
       height: 38px;
-      background: #495dc5;
+      background: $secondary;
       border: none;
       outline: none;
       border-radius: 5px;
@@ -196,7 +196,7 @@ export default {
     p {
       a {
         text-decoration: underline;
-        color: #495dc5;
+        color: $secondary;
       }
     }
   }

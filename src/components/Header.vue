@@ -106,7 +106,7 @@ export default {
         margin: 0 1vw;
       }
       .router-link-exact-active {
-        color: #ed9568;
+        color: $primary;
       }
     }
   }

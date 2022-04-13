@@ -75,7 +75,7 @@ export default {
   min-width: 220px;
   // width:220px;
   height: 700px;
-  background: #ed9568;
+  background: $primary;
   display: flex;
   flex-direction: column;
   border-radius: 0px 35px 35px 0px;
@@ -114,7 +114,7 @@ export default {
         border-radius: 45px 0px 0 45px;
         img {
           width: 25px;
-          height:25px;
+          height: 25px;
           margin: 0 10px;
         }
       }
